@@ -1,0 +1,91 @@
+{% extends 'mychurch/board/base.html' %}
+
+{% block content %}
+{% load mychurch_filter %}	
+
+		<div class="tile is-8 is-vertical">	
+		<form action="" method="post" name="fm" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form.non_field_errors }}
+			<input type="hidden" name="board_no" value="{{ board_no }}">
+			<input type="hidden" name="user_id" value="{{ board_contents.user_id }}">
+			<input type="hidden" name="file_attach_yn" value="{{ board_conf.file_attach_yn }}">
+			<input type="hidden" name="page" value="{{ page }}">
+			<div class="card">
+				<div class="card-content">
+					<div class="field">
+						<label class="label">제목</label>
+						<div class="control">
+							<input type="text" value="{{ board_contents.subject }}" name="subject" required id="id_subject" />
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">내용</label>
+						<div class="control">
+						    <textarea name="content" id="lightsalt" required>{{ board_contents.content|safe }}
+                            </textarea>
+						</div>
+					</div>
+					{% if board_conf.file_attach_yn == 'Y' %}				
+					<div class="field">
+						<label class="label">첨부파일</label>
+						<div class="control">
+						{% for file in file_list %}
+						    {{file.file_name|getFilename|unsetQuote}}<a href="{% url 'mychurch:file_delete' board_no=board_no board_content_no=board_contents.board_content_no file_attach_no=file.file_attach_no filename=file.file_name|setQuote %}">&nbsp;[삭제]</a><br>
+						{% endfor %}
+						</div>
+						<label for="id_file_field">파일첨부:</label>
+					    <input type="file" name="file_field" multiple id="id_file_field" />
+					</div>
+				   {% endif %}
+				   
+				   {% if board_contents.password %}
+					<div class="field">
+						<label class="label">비밀번호</label>
+						<input type="password" name="password" id="id_password" value="" />
+					</div>
+					{% endif %}
+				</div>
+				</form>
+				<footer class="card-footer">
+					<p class="card-footer-item">
+						<span>
+							<a href="javascript:_submit()" class="button is-link is-active">저장</a>
+						</span>
+					</p>
+					<p class="card-footer-item">
+						<span>
+							<a href="{% url 'mychurch:board_list' board_no=board_no %}?page={{page}}" class="button is-link is-active">목록</a>
+						</span>
+					</p>
+				</footer>
+			</div>			
+		</div>
+	<script>
+  var justDeletedImg = "";
+  var justDeletedFile = "";
+  var default_init = "";
+  var prev_changed_block_id = "";
+  var csrf_token = '{{ csrf_token }}';
+  var imageUploadUrl="{% url 'mychurch:image_upload' board_no=board_no %}";
+  var deleteImageUrl="{% url 'mychurch:image_delete' board_no=board_no %}"
+  var recoveryImageUrl="{% url 'mychurch:image_recovery' board_no=board_no %}"
+  
+    function _submit()
+    {
+	    f = document.fm
+		if( f.subject.value == "") {
+		    alert("제목을 입력하세요");
+			return;
+		}
+		else if( f.content.value == "") {
+		    alert("내용을 입력하세요");
+			return;
+		}
+	    f.action="{% url 'mychurch:board_edit' board_no=board_no board_content_no=board_contents.board_content_no %}";
+		f.submit();
+	}
+
+</script>		
+<script src="/static/js/application/board_editor.js"></script>			
+  {% endblock content %}    

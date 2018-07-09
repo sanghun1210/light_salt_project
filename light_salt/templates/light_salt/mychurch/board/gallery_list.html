@@ -1,0 +1,33 @@
+           <table class="table" width="800" cellpadding=0 cellspacing=0>
+	{% load staticfiles %} 
+           {% load mychurch_filter %}	
+                <tr>
+                {% for idx, item in page_list|enumerates %}
+				  
+				    <td align="left" height="160px"><table border=1 cellpadding=0 cellspacing=0>
+					    <tr valign="bottom"><td align="center" height="130px" valign="top">
+					    <a href="{% url 'mychurch:board_view' board_no=board_conf.board_no board_content_no=item.board_content_no %}?page={{page}}">
+                                                      {% if item.content %}					
+					    <img src="/mychurch{{item.content}}" width="180px" height="200px" border=0>
+					{% else %}
+					     <img src="{% static 'img/no_image.jpg' %}" width="180px" height="200px" border=0>  
+					{% endif %}
+						</td></tr>
+						<tr align="center" valign="bottom"><td valign="bottom">
+					          {% if item.depth %}
+						  <img src="{% static 'img/icon_reply_head.gif' %}">
+						{% endif %}
+					          {{ item.subject }}</a><br>			
+						{{ item.create_time|date:"Y-m-d"  }} | {{ item.hit_count }}
+						<br>
+						{{ item.user_id }}
+						</td></tr>
+						</table>
+					</td>
+				  {% if idx > 0 and idx|remainder:3 == 0 %}
+                    </tr>
+                    <tr>
+				  {% endif %}	
+			    {% endfor %}
+				</tr>
+			</table> 

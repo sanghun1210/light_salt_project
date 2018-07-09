@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>빛과소금 - 교회</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- Bulma Version 0.7.1-->
+		{% load static %}  
+		<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>  
+        <script src="{% static 'js/vue/vue.min.js' %}"></script>
+		<link rel="stylesheet" href="{% static 'css/bulma.min.css' %}" />
+		<script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+		<style>
+		  html,body {
+		    font-family: 'Malgun Gothic','Nanum Gothic','Nanum GothicB', 'Open Sans', serif;
+		    background: #FFFFFF;
+		  }
+		  .columns {
+			margin-top: 0;
+		  }
+		  section.column {
+			padding: 1rem;
+			font-size: 0.95rem;
+		  }
+		  .sidebar-header-single {
+			color: #000;
+			font-weight: 100;
+			font-size: 0.95rem;
+			border-left: 4px solid #ff0083;
+			padding-left: 0.75rem;
+		  }
+          .menu-label {
+		    padding: 0rem;
+			font-size: 0.9rem;
+		  }
+		</style>
+		
+	</head>
+	<body>
+     <section class="hero is-info">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    하늘 교회
+                </h1>
+                <h2 class="subtitle">
+                    평화가 함께하는 온라인 교회
+                </h2>
+            </div>
+        </div>
+    </section>
+    
+	 <div class="columns is-3">
+        <!-- Aside nav drawer -->
+        <aside class="column is-2 ">
+            <div class="panel">              
+                <div class="card-wrapper">
+					<div class="card">
+					<header class="card-header-fix-center has-text-centered notification is-danger">
+					  <p class="card-header-title-fix">
+						About
+					  </p>
+					</header>
+					<div class="card-content">
+					  <div class="content">
+						<div class="sidebar-header-single">홍길동(장로) </div><br>
+					    <ul>
+						<li>현재 접속자 : 100명</li>
+						<li>전체 교인 : 356명</li>
+						</ul>
+						<a class="button is-dark">회원정보</a>&nbsp;<a class="button is-focused">관리자</a>
+					  </div>
+					</div>
+					
+				</div>
+				<br>
+                <div class="card-wrapper">
+				  	<div class="card">
+						<header class="card-header-fix-center has-text-centered notification is-info">
+						  <p class="card-header-title-fix">
+							우리 교회
+						  </p>
+						</header>
+						<div class="card-content">
+						  <p class="menu-label">
+						    <a href="index.html">공지사항</a>
+						  </p>
+						  <p class="menu-label">
+						    <a href="contact.html">라이브</a>
+						  </p>
+						  <p class="menu-label">
+						    <a href="contact.html">교회방송 </a>
+						  </p>
+						  <p class="menu-label">
+						    <a href="about.html">고민이 있어요</a>
+						  </p>					  
+						  <p class="menu-label">
+						     <a href="contact.html">교회 소식</a>
+						  </p>
+						  
+						</div>
+					</div>
+		        </div>
+				
+            </div>
+        </aside>
+		
+        <section class="column">
+          
+			<div class="tile is-ancestor">
+			  <div class="tile">
+				
+				  <div class="tile is-parent is-8">
+					<article class="tile is-child notification">
+						<figure class="image is-4by3">
+							<img src="https://bulma.io/images/placeholders/640x480.png" >
+						</figure>
+					</article>
+				  </div>
+				  
+				  <div class="tile is-parent">
+				    <div class="tile is-parent is-vertical ">
+					
+			          <div class="tile is-child">
+					    <div class="card">
+				
+						  <header class="card-header notification is-link">
+                                <p class="card-header-title">
+								   <font color="white">공지사항</font>
+                                </p>
+                                <a href="#" class="card-header-icon" aria-label="more options">
+								  <span class="icon">
+									<i class="fa fa-angle-down" aria-hidden="true"></i>
+								  </span>
+								</a>
+                          </header>
+						  <table cellspacing=3 class="table is-striped is-fullwidth is-hoverable">
+							  <tbody>
+							    <tr>
+								  <td>2018-03-20</td>
+								  <td>신규 사이트 open 기념 행사<td>
+								</tr>
+								<tr>
+								  <td>2018-04-02</td>
+								  <td>새로운 라이브 시청 방법<td>
+								</tr>
+								<tr>
+								  <td>2018-04-22</td>
+								  <td>새로운 라이브 시청 방법<td>
+								</tr>
+								<tr>
+								  <td>2018-05-11</td>
+								  <td>새로운 라이브 시청 방법<td>
+								</tr>
+								<tr>
+								  <td>2018-05-13</td>
+								  <td>새로운 라이브 시청 방법<td>
+								</tr>
+							  </tbody>
+							</table>
+                        </div>					
+					  </div>
+										  
+					  <div class="tile is-child">
+					    <div class="card">
+						<!-- Put any content you want -->
+						  <header class="card-header notification is-link">
+							<p class="card-header-title ">
+								<font color="white">고민이 있어요</font>
+							</p>
+							<a href="#" class="card-header-icon" aria-label="more options">
+							  <span class="icon">
+								<i class="fa fa-angle-down" aria-hidden="true"></i>
+							  </span>
+							</a>
+						  </header>
+						  <div class="card-table">
+                                <div class="content">
+                                    <table class="table is-fullwidth is-striped is-hoverable">
+                                        <tbody>
+                                            <tr>
+                                                <td width="5%"><i class="fa fa-bell-o"></i></td>
+                                                <td>Lorum ipsum dolem aire</td>
+                                               
+                                            </tr>
+                                            <tr>
+                                                <td width="5%"><i class="fa fa-bell-o"></i></td>
+                                                <td>Lorum ipsum dolem aire</td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td width="5%"><i class="fa fa-bell-o"></i></td>
+                                                <td>Lorum ipsum dolem aire</td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td width="5%"><i class="fa fa-bell-o"></i></td>
+                                                <td>Lorum ipsum dolem aire</td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td width="5%"><i class="fa fa-bell-o"></i></td>
+                                                <td>Lorum ipsum dolem aire</td>
+                                                
+                                            </tr>                                                                                       
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>				
+						
+						</div>
+					  </div>
+					  
+					</div>  
+				  </div>
+				
+			  </div>
+			</div>
+
+			
+        </section>
+    </div>
+	
+		
+	<footer class="footer">
+			<div class="container">
+				<div class="content has-text-centered">
+					<div class="columns is-mobile is-centered">
+						<div class="field is-grouped is-grouped-multiline">
+							<div class="control">
+								<div class="tags has-addons">
+								  
+								  <a class="tag is-link" href="#">
+								    <span class="icon">
+								      <i class="fas fa-home"></i>
+								    </span>
+								    빛과소금
+								  </a>
+								  <span class="tag is-light">연락처 : 02-xxxx-xxxx </span>
+								</div>
+							</div>
+							<div class="control">
+								<div class="tags has-addons">
+									<span class="tag is-light">인천시 서구 봉화로 60-17 &nbsp;</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<script async type="text/javascript" src="{% static 'js/bulma/bulma.js' %}"></script>  
+	</body>
+</html>

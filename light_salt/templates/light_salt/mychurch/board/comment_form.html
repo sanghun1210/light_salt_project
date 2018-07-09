@@ -1,0 +1,89 @@
+﻿<div id="mw_basic_comment_write">
+	<form method="post" action="" name="fcomment">
+		<p><textarea id="comment" name="comment" rows=6 cols=100></textarea>&nbsp;<br>
+        <input type="checkbox" id="secret_comment_yn" name="secret_comment_yn" value="Y" ><small>비밀글 (체크하면 글쓴이만 내용을 확인할 수 있습니다.)</small>
+		<input type="button" onClick="submitComment()" id="btn_comment" value="댓글 달기" /></p>
+	</form>
+</div>
+
+<script type="text/javascript">
+  var save_html = document.getElementById('mw_basic_comment_write').innerHTML;
+  var g_comment_no =0;
+  function commentDelete(comment_no, group_order, group_no)
+  {
+	  $.ajax({
+        type: "GET",
+        url : '{% url 'mychurch:comment' board_no=board_no board_content_no=board_content.board_content_no %}',
+        data : {'csrfmiddlewaretoken': '{{ csrf_token }}', board_no:'{{board_no}}' , board_content_no:'{{board_content.board_content_no}}', comment_no:comment_no,  group_order:group_order, group_no:group_no},
+        success:function(data){
+          //$('body').append(data)
+          $('#comment_list').html("");
+	      $("#comment_list").html(data)
+        },
+		error: function(request, status, error){ 
+		  alert(error);
+		}
+      });
+  }
+  function commentReply(comment_no)
+  {
+    var el_id;
+
+    if (comment_no){
+      el_id = 'reply_' + comment_no;
+	  $("#"+el_id).css("display", "");
+      $("#"+el_id).html(save_html);
+	  g_comment_no = comment_no;
+    }
+	else {
+	  alert("댓글번호가 올바르지 않습니다");
+	  g_comment_no = '0';
+	  return;
+	}
+  }
+
+  function submitComment()
+  {
+      var f = "";
+      if( g_comment_no == 0) {
+	    fm = document.getElementsByName("fcomment")[0];
+		f=fm;
+	  }
+	  else { 
+		fm = $("#reply_"+g_comment_no).children("form");
+		f=fm[0];
+	  }
+	  var comment= f.comment.value;
+	  var comment_no= g_comment_no;
+	  var secret_comment_yn = f.secret_comment_yn.value;
+   	  
+	  //alert(comment);
+	  if( comment == "") {
+	    alert("내용을 입력하세요");
+		return;
+	  }
+      $.ajax({
+        type: "POST",
+        url : '{% url 'mychurch:comment' board_no=board_no board_content_no=board_content.board_content_no %}',
+        data : {'csrfmiddlewaretoken': '{{ csrf_token }}', 
+		        board_no:'{{board_no}}' , 
+				board_content_no:'{{board_content.board_content_no}}', 
+				comment:comment,
+				comment_no:comment_no,
+				secret_comment_yn:secret_comment_yn
+				},
+        success:function(data){
+          //$('body').append(data)
+          $('#comment_list').html("");
+	      $("#comment_list").html(data);
+		  $('textarea').val('');
+		  g_comment_no =0;
+		  f.secret_comment_yn.checked=false;
+        },
+		error: function(request, status, error){ 
+		  alert(error);
+		}
+      });
+  };
+ 
+</script>

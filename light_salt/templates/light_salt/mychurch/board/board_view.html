@@ -1,0 +1,98 @@
+{% extends 'mychurch/board/base.html' %}
+
+{% block content %}
+{% load mychurch_filter %}	
+<style>
+.comment {
+    margin: 20px 0px 20px 20px;
+}
+</style>
+
+		<div class="tile is-8 is-vertical">	
+			<div class="card">
+				<div class="card-content">
+					<p class="title">
+						{{ board_content.subject}}
+					</p>
+					<div class="field">
+						<label class="label">제목</label>
+						<div class="control">
+							{{board_content.subject}}
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">작성자</label>
+						<div class="control">
+							{{board_content.user_id}}
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">조회수</label>
+						<div class="control">
+							{{board_content.hit_count}}
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">작성일시</label>
+						<div class="control">
+							{{board_content.create_time|date:"Y-m-d h:i:s"}}
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">내용</label>
+						<div class="control">
+							{{board_content.content|safe}}
+						</div>
+					</div>
+					{% if board_conf.file_attach_yn == 'Y' %}				
+					<div class="field">
+					{% if file_list %}
+						<label class="label">첨부파일</label>
+						<div class="control">
+						{% for file in file_list %}
+						    <a href="{% url 'mychurch:file_download' board_no=board_no filename=file.file_name|unsetQuote %}">{{file.file_name|getFilename|unsetQuote}}</a><br>
+						{% endfor %}
+						</div>
+					{% endif %}
+					</div>
+				   {% endif %}
+				</div>
+
+				<footer class="card-footer">
+				{% if request.user.member_id == board_content.user_id and board_conf.board_access_code == 'RDWR' %}
+					<p class="card-footer-item">
+						<span>
+							<a href="{% url 'mychurch:board_edit' board_content_no=board_content.board_content_no board_no=board_no %}?page={{page}}" class="button is-link is-active">수정</a>
+						</span>
+					</p>
+					<p class="card-footer-item">
+						<span>
+							<a href="{% url 'mychurch:board_delete' board_content_no=board_content.board_content_no board_no=board_no %}?group_no={{board_content.group_no}}&group_order={{board_content.group_order}}&page={{page}}" class="button is-link is-danger">삭제</a>
+						</span>
+					</p>
+				{%endif%}
+				{% if board_conf.board_access_code == 'RDWR' %}
+				    <p class="card-footer-item">
+						<span>
+							<a href="{% url 'mychurch:board_reply' board_content_no=board_content.board_content_no board_no=board_no %}?page={{page}}" class="button is-link is-active">답글</a>
+						</span>
+					</p>
+				{%endif%}
+					<p class="card-footer-item">
+						<span>
+							<a href="{% url 'mychurch:board_list' board_no=board_no %}?page={{page}}" class="button is-link is-active">목록</a>
+						</span>
+					</p>
+				</footer>
+			</div>		
+            <div>
+			    {% include 'mychurch/board/comment_form.html' %}
+				{% if board_conf.comment_use_yn == 'Y' %}
+			    <div id="comment_list">
+			        {% include 'mychurch/board/comments.html' %}
+				</div>
+				{% endif %}	
+			</div>
+		</div>
+			
+  {% endblock content %}    

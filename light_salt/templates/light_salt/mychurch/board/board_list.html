@@ -1,0 +1,130 @@
+{% extends 'mychurch/board/base.html' %}
+
+{% block content %}
+	<script>
+       function _search()
+	   {
+	       var f = document.fm;
+		   if( f.searchStr.value=="" ) {
+		       alert("검색할 내용을 입력하세요");
+			   f.searchStr.focus();
+			   return;
+		   }
+		   f.action="{% url 'mychurch:board_list' board_no=board_conf.board_no %}";
+		   f.submit();
+	   }
+    </script>	
+		<div class="tile is-8 is-vertical">	
+		    <br>
+			<div class="control">
+			     <h1 class="subtitle">{{ board_conf.board_title_name }}</h1>
+			</div>
+			<br>
+			{% if board_conf.board_type_code == 'IMG' %}
+			    {% include 'mychurch/board/gallery_list.html' %}
+			{% else %}
+			    {% include 'mychurch/board/default_list.html' %}
+			{% endif %}
+			<table class="table" align="center">
+			    <form action="" method="post" name="fm" >
+				<input type="hidden" name="page" value="{{page}}">
+				{% csrf_token %}
+			    <tr align="center">
+				    <td align="center"><select name="searchKey">
+					        <option value="1" >제목</option>
+							<option value="2" >내용</option>
+							<option value="3" >제목+내용</option>
+					    </select>
+				       <input type="text" name="searchStr" value="{{ searchStr }}">
+					  <a class="button is-link is-rounded" href="javascript:_search()">검색</a></td>
+				</tr>
+				</form>
+			</table>
+<!--
+			<div align="center">
+			<span>
+			  <nav>
+				<ul class="pagination">
+				  {% if page_list.has_previous %}
+					<li>
+					  <a href="?page={{ page_list.previous_page_number }}">
+						<span>Prev</span>
+					  </a>
+					</li>
+				  {% else %}
+					<li class="disabled">
+					  <a href="#">
+						<span>Previous</span>
+					  </a>
+					</li>
+				  {% endif %}
+
+				  {% for page in page_list.paginator.page_range %}
+					<li {% if page == page_list.number %}class="active"{% endif %}>
+					  <a href="?page={{ page }}">{{ page }}</a>
+					</li>
+				  {% endfor %}
+
+				  {% if page_list.has_next %}
+					<li>
+					  <a href="?page={{ page_list.next_page_number }}">
+						<span>Next</span>
+					  </a>
+					</li>
+				  {% else %}
+					<li {% if not page_list.has_next %}class="disabled"{% endif %}>
+					  <a href="#">
+						<span>Next</span>
+					  </a>
+					</li>
+				  {% endif %}
+				</ul>
+			  </nav>
+			</span>
+			</div>
+	-->
+  			  <ul class="pagination">
+				{% if page_list.has_previous %}
+				  <li><a href="?page={{ page_list.previous_page_number }}">&laquo;</a></li>
+				{% else %}
+				  <li class="disabled"><span>&laquo;</span></li>
+				{% endif %}
+				{% for i in page_list.paginator.page_range %}
+				  {% if page_list.number == i %}
+					<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+				  {% else %}
+					<li><a href="?page={{ i }}">{{ i }}</a></li>
+				  {% endif %}
+				{% endfor %}
+				{% if page_list.has_next %}
+				  <li><a href="?page={{ page_list.next_page_number }}">&raquo;</a></li>
+				{% else %}
+				  <li class="disabled"><span>&raquo;</span></li>
+				{% endif %}
+			  </ul>
+	
+<!--	
+            <div class="pagination">
+				<span class="step-links">
+					{% if page_list.has_previous %}
+						<a href="?page={{ page_list.previous_page_number }}">previous</a>
+					{% endif %}
+
+					<span class="current">
+						Page {{ page_list.number }} of {{ page_list.paginator.num_pages }}.
+					</span>
+
+					{% if page_list.has_next %}
+						<a href="?page={{ page_list.next_page_number }}">next</a>
+					{% endif %}
+				</span>
+			</div>	
+-->
+        {% if board_conf.board_access_code == 'RDWR' %}
+            <div class="level-right bd-structure-item">
+			    <a class="button is-info is-hovered" href="{% url 'mychurch:board_write' board_no=board_conf.board_no %}">글쓰기</a>
+            </div>	
+        {% endif %}			
+		</div>
+	
+  {% endblock content %}    

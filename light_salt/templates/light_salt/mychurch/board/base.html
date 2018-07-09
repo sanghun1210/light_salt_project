@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>빛과소금 - 교회</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- Bulma Version 0.7.1-->
+		{% load static %}  
+		<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>  
+        <script src="{% static 'js/vue/vue.min.js' %}"></script>
+		<link rel="stylesheet" href="{% static 'css/bulma.min.css' %}" />
+		<script src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+		<style>
+		  html,body {
+		    font-family: 'Malgun Gothic','Nanum Gothic','Nanum GothicB', 'Open Sans', serif;
+		    background: #FFFFFF;
+		  }
+		  .columns {
+			margin-top: 0;
+		  }
+		  section.column {
+			padding: 1rem;
+			font-size: 0.95rem;
+		  }
+		  .sidebar-header-single {
+			color: #000;
+			font-weight: 100;
+			font-size: 0.95rem;
+			border-left: 4px solid #ff0083;
+			padding-left: 0.75rem;
+		  }
+          .menu-label {
+		    padding: 0rem;
+			font-size: 0.9rem;
+		  }
+		</style>
+		
+	</head>
+	<body>
+     <section class="hero is-info">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    하늘 교회
+                </h1>
+                <h2 class="subtitle">
+                    평화가 함께하는 온라인 교회
+                </h2>
+            </div>
+        </div>
+    </section>
+    
+	<div class="columns is-3">				
+	  <section class="column">
+		<div class="tile is-ancestor">
+			
+			<div class="tile is-2 is-parent">
+			
+				<div class="card-wrapper">
+					<div class="card">
+					<header class="card-header-fix-center has-text-centered notification is-danger">
+					  <p class="card-header-title-fix">
+						About
+					  </p>
+					</header>
+					<div class="card-content">
+					  <div class="content">
+						<div class="sidebar-header-single">{{request.user.name}}(장로) </div><br>
+					    <ul>
+						<li>현재 접속자수 : 100명</li>
+						<li>전체 교인수 : 356명</li>
+						</ul>
+						<a class="button is-dark">회원정보</a>&nbsp;<a class="button is-focused">관리자</a>
+					  </div>
+					</div>
+					
+				</div>
+				<br>
+			    <div class="card-wrapper">
+				  	<div class="card">
+					    {% load mychurch_tags %}
+					    {% side_menu %}										
+					</div>
+		        </div>
+			</div>
+		</div>
+		{% block content %}
+	    {% endblock content %}
+
+		</section>
+	
+	
+	</div>
+	
+		
+	<footer class="footer">
+			<div class="container">
+				<div class="content has-text-centered">
+					<div class="columns is-mobile is-centered">
+						<div class="field is-grouped is-grouped-multiline">
+							<div class="control">
+								<div class="tags has-addons">
+								  
+								  <a class="tag is-link" href="/">
+								    <span class="icon">
+								      <i class="fas fa-home"></i>
+								    </span>
+								    빛과소금
+								  </a>
+								  <span class="tag is-light">연락처 : 02-xxxx-xxxx </span>
+								</div>
+							</div>
+							<div class="control">
+								<div class="tags has-addons">
+									<span class="tag is-light">인천시 서구 봉화로 60-17 &nbsp;</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+	</body>
+</html>

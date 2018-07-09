@@ -1,0 +1,33 @@
+{% extends "base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />
+{{ form.media }}
+{% endblock %}
+
+{% block title %}{% trans 'Light And Salt Sign up' %}{% endblock %}
+{% block branding %}<h1>{% trans 'Light And Salt' %}</h1>{% endblock %}
+
+<style>
+  body{background-color: white}
+</style>
+
+{% block content %}
+  <h2>Sign up</h2>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button type="submit">Sign up</button>
+  </form>
+{% endblock %}

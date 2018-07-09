@@ -1,0 +1,14 @@
+﻿                        <header class="card-header-fix-center has-text-centered notification is-info">
+						  <p class="card-header-title-fix">
+							우리 교회
+						  </p>
+						</header>
+						<div class="card-content">
+						{% for menu in menu_list %}
+						
+						  <p class="menu-label">
+						    <a href="{{ menu.menu_link_addr}}">{{menu.menu_name}}</a>
+						  </p>
+						  
+						{% endfor %}
+						</div>

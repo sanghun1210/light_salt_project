@@ -1,0 +1,258 @@
+{% load i18n static %}<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}빛과소금 - 교회{% endblock %}</title>
+  
+  <!-- Bulma Version 0.7.1-->
+  {% load static %}
+  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/vue/vue.min.js' %}"></script>
+  <script src="{% static 'js/bulma/bulma-carousel.js' %}"></script>
+  <script src="{% static 'js/bulma/bulma-carousel.min.js' %}"></script>
+
+  {% block extrastyle %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/bulma-extensions.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/bulma-carousel.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/light_salt.css' %}" />
+  {% endblock %}  
+</head>
+
+<body>
+  <nav class="navbar is-white topNav">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="../">
+          <!--<img src="../images/bulma.png" width="112" height="28"> -->
+          <font size="6" face="verdana" color="#0174DF" style="font-weight:bold">Light & Salt</font>
+        </a>
+        <div class="navbar-burger burger" data-target="topNav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div id="topNav" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="cover.html">HOME</a>
+          <a class="navbar-item" href="blog.html">MEDIA</a>
+          <a class="navbar-item" href="instaAlbum.html">MY CHURCH</a>
+          <a class="navbar-item" href="search.html">SEARCH</a>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="field is-grouped">
+              {% if user.is_authenticated %}
+              <p class="control">
+                <a class="button is-small" a href="/account/user-update">
+                  <span class="icon">
+                    <i class="fa fa-user"></i>
+                  </span>
+                  <span>My Profile</span>
+                </a>
+              </p>
+              <p class="control">
+                <a class="button is-small is-info is-outlined" a href="/auth/logout">
+                  <span class="icon">
+                    <i class="fa fa-sign-out"></i>
+                  </span>
+                  <span>Logout</span>
+                </a>
+              </p>
+              {% else %}
+              <p class="control">
+                <a class="button is-small" a href="/account/sign-up">
+                  <span class="icon">
+                    <i class="fa fa-user-plus"></i>
+                  </span>
+                  <span>
+                    Register
+                  </span>
+                </a>
+              </p>
+              <p class="control">
+                <a class="button is-small is-info is-outlined" a href="/auth/login">
+                  <span class="icon">
+                    <i class="fa fa-user"></i>
+                  </span>
+                  <span>Login</span>
+                </a>
+              </p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+  </nav>
+
+
+  {% block content %}
+  <section class="container">
+    <div class="main-video">
+
+      <video id="video" poster="/static/img/woman_pray.jpg" class="main" controls preload="none">
+      </video>
+
+      <div class="church-info">
+        <ul>
+          <li class="church-info">Church Name</li>
+          <p class="church-info" id="church_name"></p>
+          <br>
+          <br>
+          <br>
+          <li class="church-info">Church Address</li>
+          <p class="church-info" id="church_address"></p>
+          <br>
+          <br>
+          <br>
+          <li class="church-info">Pastor</li>
+          <p class="church-info" id="church_pastor"></p>
+          <br>
+          <br>
+          <br>
+        </ul>
+      </div>
+
+    </div>
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var carousels = bulmaCarousel.attach();
+      }, false);
+    </script>
+
+    <div class="carousel carousel-animated carousel-animate-slide" data-size="5">
+      <div class='carousel-container'>
+        <div class='carousel-item'>
+          <figure class="image is-2by1">
+            <img id="image1" src="http://www.gstatic.com/webp/gallery/1.jpg" style="cursor:pointer">
+          </figure>
+
+        </div>
+        <div class='carousel-item'>
+          <figure class="image is-2by1">
+            <img id="image2" src="http://www.gstatic.com/webp/gallery/2.jpg" style="cursor:pointer">
+          </figure>
+
+        </div>
+        <div class='carousel-item'>
+          <figure class="image is-2by1">
+            <img id="image3" src="http://www.gstatic.com/webp/gallery/3.jpg" style="cursor:pointer">
+          </figure>
+
+        </div>
+        <div class='carousel-item'>
+          <figure class="image is-2by1">
+            <img id="image4" src="http://www.gstatic.com/webp/gallery/4.jpg" style="cursor:pointer">
+          </figure>
+
+        </div>
+        <div class='carousel-item'>
+          <figure class="image is-2by1">
+            <img id="image5" src="http://www.gstatic.com/webp/gallery/5.jpg" style="cursor:pointer">
+          </figure>
+
+        </div>
+        <div class='carousel-item'>
+          <figure class="image is-2by1">
+            <img id="image6" src="https://homepages.cae.wisc.edu/~ece533/images/airplane.png" style="cursor:pointer">
+          </figure>
+
+        </div>
+        <div class='carousel-item'>
+          <figure class="image is-2by1">
+            <img id="image7" src="https://homepages.cae.wisc.edu/~ece533/images/arctichare.png" style="cursor:pointer">
+          </figure>
+
+        </div>
+      </div>
+      <div class="carousel-navigation is-centered">
+        <div class="carousel-nav-left">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="carousel-nav-right">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* media setting */
+      var server_address = '{{server_address}}'
+      server_address = server_address.replace(/&quot;/g, "\"")
+
+      var json_server_address = JSON.parse(server_address)
+      var server_address_list = new Array();
+
+      for (var i in json_server_address)
+        server_address_list[i] = json_server_address[i].fields.server_address
+
+      var video = document.getElementById('video');
+      var random_index = Math.floor(Math.random() * server_address_list.length)
+      $("#video").attr("src", server_address_list[random_index])
+      //video.play()
+
+      var img_list = document.querySelectorAll('img')
+      function addClickHandler(img, j) {
+        img.addEventListener('click', function (e) {
+          var video = document.getElementById('video');
+          $("#video").attr("src", server_address_list[j])
+          video.play()
+        }, false)
+      }
+
+      for (var j = 0; j < img_list.length; j++)
+        addClickHandler(img_list[j], j)
+
+      /* church info */
+      var church_info = '{{church_info}}'
+      church_info = church_info.replace(/&quot;/g, "\"")
+      var json_church_info = JSON.parse(church_info)
+
+      var church_name = document.getElementById('church_name')
+      church_name.innerHTML = json_church_info[(json_server_address[random_index].fields.church_no) - 1].fields.church_name
+
+      var church_address = document.getElementById('church_address')
+      church_address.innerHTML = json_church_info[(json_server_address[random_index].fields.church_no) - 1].fields.church_address
+
+      var church_paster = document.getElementById('church_pastor')
+      church_paster.innerHTML = json_church_info[(json_server_address[random_index].fields.church_no) - 1].fields.pastor_id
+    </script>
+
+  </section>
+  {% endblock content %}
+
+  {% block footer %}
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <div class="columns is-mobile is-centered">
+          <div class="field is-grouped is-grouped-multiline">
+            <div class="control">
+              <div class="tags has-addons">
+                <a class="tag is-link" href="#">빛과소금</a>
+                <span class="tag is-light">Copyright ⓒ 빛과소금(주) 02-xxxx-xxxx </span>
+              </div>
+            </div>
+            <div class="control">
+              <div class="tags has-addons">
+                <span class="tag is-light">서울시 영등포구 여의도동 &nbsp;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  {% endblock %}
+
+  <script async type="text/javascript" src="{% static 'js/bulma/bulma.js' %}"></script>
+</body>
+
+</html>

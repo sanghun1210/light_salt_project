@@ -1,0 +1,47 @@
+           
+			    <hr>
+{% load mychurch_filter %}	
+				{% for comment in comment_list %}
+				  <div style='margin-left:{{comment.depth|multiply:20}}px'>
+					<div class="comment">
+						<div class="date">{{ comment.create_time|date:"Y-m-d h:i:s" }}</div>
+						<div>
+						  <strong>{{ comment.user_id }}</strong><small>
+						  {% if comment.secret_comment_yn == 'Y' and request.user.member_id != comment.user_id and request.user.member_id != board_content.user_id %}
+							<br><font color="#8A4B08">비밀글 입니다</font>						
+						  {% else %}
+						    {{ comment.comment|linebreaks }}
+					      {% endif %}	  
+						</small></div>
+					    {% if request.user.member_id == comment.user_id %}
+					&nbsp;&nbsp;<a href="javascript:commentDelete('{{comment.comment_no}}','{{comment.group_order}}', '{{comment.group_no}}');" id="comment_del">[삭제]</a>
+					&nbsp;
+                    {% endif %}	
+                    &nbsp;&nbsp;<a href="javascript:commentReply('{{comment.comment_no}}');" id="comment_del">[답글]</a>
+					&nbsp;&nbsp;<div id='reply_{{comment.comment_no}}' style='display:none;'></div>	
+					</div>				
+                    	
+                  </div>					
+				  <hr>
+				{% empty %}
+				  <p>No comments here yet </p>
+				{% endfor %}
+				{% if comment_list %}
+				<div class="pagination">
+						<span class="step-links">
+							{% if comment_page.has_previous %}
+								<a href="javacript:getCommentList('{{ comment_page.previous_page_number }}')">previous</a>
+							{% endif %}
+
+							<span class="current">
+								Page {{ comment_page.number }} of {{ comment_page.paginator.num_pages }}.
+							</span>
+
+							{% if comment_page.has_next %}
+								<a href="javacript:getCommentList('{{ comment_page.next_page_number }}')">next</a>
+							{% endif %}
+						</span>
+					</div>	
+				{% endif %}
+						
+			

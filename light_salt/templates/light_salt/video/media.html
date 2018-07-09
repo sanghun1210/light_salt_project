@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>빛과소금 - 교회</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- Bulma Version 0.7.1-->
+		{% load static %}  
+		<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>  
+        <script src="{% static 'js/vue/vue.min.js' %}"></script>
+        
+        <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/bulma-extensions.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/light_salt.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/media.css' %}" />
+	</head>
+	<body>
+		<nav class="navbar is-white topNav">
+			<div class="container">
+				<div class="navbar-brand">
+					<a class="navbar-item" href="../">
+						<!--<img src="../images/bulma.png" width="112" height="28"> -->
+                        <font size="6" face="verdana" color="#0174DF" style="font-weight:bold">Light & Salt</font>
+					</a>
+					<div class="navbar-burger burger" data-target="topNav">
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+				</div>
+				<div id="topNav" class="navbar-menu">
+					<div class="navbar-start">
+						<a class="navbar-item" href="../">HOME</a>
+						<a class="navbar-item" href="./">MEDIA</a>
+						<a class="navbar-item" href="instaAlbum.html">MY CHURCH</a>
+						<a class="navbar-item" href="search.html">SEARCH</a>
+					</div>
+					<div class="navbar-end">
+						<div class="navbar-item">
+							<div class="field is-grouped">
+								<p class="control">
+									<a class="button is-small">
+										<span class="icon">
+											<i class="fa fa-user-plus"></i>
+										</span>
+										<span>
+											Register
+										</span>
+									</a>
+								</p>
+								<p class="control">
+									<a class="button is-small is-info is-outlined">
+										<span class="icon">
+											<i class="fa fa-user"></i>
+										</span>
+										<span>Login</span>
+									</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		
+        
+        <div id="live-list" class="live-list">
+            
+        </div>
+        
+        <div id="live-chat" class="live-chat">
+        
+        </div>
+        
+        <div id="live-main" class="live-main">
+            <video id="live-video" class="live-video" controls preload="none"></video>
+        </div>
+
+
+
+        <script type="text/javascript">
+            var mediaWidth = 640;
+            var div_live_main = document.getElementById('live-main');
+            var div_live_list = document.getElementById('live-list');
+            var div_live_chat = document.getElementById('live-chat');
+            
+            var video_live = document.getElementById('live-video');
+        
+            
+            function divResize() {
+                if(800 <= $(window).width() && $(window).width() <= 1200){
+                    div_live_list.style.display="none";
+                    div_live_chat.style.display="block";
+                    div_live_main.style.float = "left";
+                    video_live.style.float = "left";
+                    mediaWidth = 320;
+                }
+                else if($(window).width() <= 800){
+                    div_live_list.style.display="none";
+                    div_live_chat.style.display="none";
+                    div_live_main.style.float = "auto";
+                    video_live.style.float = "auto";
+                    div_live_main.style.float = "none";
+                    video_live.style.float = "none";
+                    mediaWidth = 0;
+                }
+                else{
+                    div_live_list.style.display="block";
+                    div_live_chat.style.display="block";
+                    div_live_main.style.margin = "auto";
+                    video_live.style.margin = "auto";
+                    div_live_main.style.float = "none";
+                    video_live.style.float = "none";
+                    mediaWidth = 640;
+                }
+
+                div_live_main.style.width = window.innerWidth - mediaWidth + 'px';
+                video_live.style.width = window.innerWidth - mediaWidth + 'px';
+            }
+
+            window.onload = function() {
+                divResize();
+
+                // 브라우저 크기가 변할 시 동적으로 사이즈를 조절해야 하는경우
+                window.addEventListener('resize', divResize);
+            }
+        </script>
+
+		<script async type="text/javascript" src="{% static 'js/bulma/bulma.js' %}"></script>  
+	</body>
+</html>

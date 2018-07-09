@@ -1,0 +1,80 @@
+
+############################## [[5;1mDE-MYQ Install Verifying Start[0m ] ######################################
+
+
+[SUCCESS] mysql connect checking ................... [34mOK[0m
+
+
+[SUCCESS] DAMO INNODB plugin checking ................... [34mOK[0m
+[SUCCESS] DAMO MYISAM plugin checking ................... [34mOK[0m
+
+
+[SUCCESS] [1mdamo_interrupt_license_thd[0m function installed ................... [34mOK[0m
+[31m[ERROR][0m [1mgetcolumnsizebyotc_damo[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mhash_raw_data[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mhash_b64_data[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mhmac_b64_data[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mreload_damo[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mcreate_license_damo[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_column[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_encpriv[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_accepriv[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_policy[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_env[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_log_flag[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_set_column[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_set_encpriv[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_set_accepriv[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_set_policy[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_set_env[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_set_log_flag[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_session_id[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_auth[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_log[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_set_tableinfo[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_tableinfo[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_check_session_auth[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_check_license[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_querypriv[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_set_querypriv[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_set_passwd[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_kms_mode[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_set_kms_mode[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_policy_for_kms[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_license_type[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_total_num_enc_settings[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_close_session_auth[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_verify_session_auth[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_component_version[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_heart_beat[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_set_issue_license_by_ics[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_set_issue_license_by_file[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mdamo_conf_get_sw_keymanager_status[0m function not installed ................... [31mFAIL[0m
+[31m[ERROR][0m [1mcheck_migration_priv[0m function not installed ................... [31mFAIL[0m
+
+
+[31m[ERROR][0m keymanager is not running ................... [31mFAIL[0m
+
+
+[SUCCESS] check shared memory (KEY : 0x056e137f) for access privilege save ................... [34mOK[0m
+[SUCCESS] check shared memory (KEY : 0x056e137f) attached count for access privilege save (attach count : 1) ................... [34mOK[0m
+[SUCCESS] check shared memory (KEY : 0x056e1375) for enc/dec privilege save ................... [34mOK[0m
+[SUCCESS] check shared memory (KEY : 0x056e1375) attached count for enc/dec privilege save (attach count : 1) ................... [34mOK[0m
+[SUCCESS] check shared memory (KEY : 0x056e136b) for column privilege save ................... [34mOK[0m
+[SUCCESS] check shared memory (KEY : 0x056e136b) attached count for column privilege save (attach count : 1) ................... [34mOK[0m
+
+
+[SUCCESS] damo conf file (FILE NAME : /etc/damo.conf) exists  ................... [34mOK[0m
+[SUCCESS] BIN (PATH : /damo/bin) directory exists  ................... [34mOK[0m
+[SUCCESS] KEY (PATH : /damo/key) directory exists  ................... [34mOK[0m
+[SUCCESS] LIB (PATH : /damo/lib64) directory exists  ................... [34mOK[0m
+[SUCCESS] LOG (PATH : /damo/log) directory exists  ................... [34mOK[0m
+[SUCCESS] LOG (PATH : /damo/log) directory permission check( 0777 )  ................... [34mOK[0m
+[31m[ERROR][0m LICENSE (FILE NAME : /damo/damo_lic.cer[/damo/license.damo] ) file not exists  ................... [31mFAIL[0m
+[SUCCESS] damo conf file (FILE NAME : /etc/ld.so.conf.d/damo.conf) exists  ................... [34mOK[0m
+
+
+
+############################## [[5;1mDE-MYQ Install Verifying End[0m ] ######################################
+
+

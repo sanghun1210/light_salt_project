@@ -1,0 +1,16 @@
+{% extends "account/base_site.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans 'Light And Salt : Users' %}{% endblock %}
+{% block branding %}<h1>{% trans 'Light And Salt' %}</h1>{% endblock %}
+
+{% block content %}
+    <h1>Users</h1>
+    <ul>
+    {% for user in object_list %}
+        <li>{{ user.member_id }} - {{ user.name }}</li>
+    {% empty %}
+        <li>No user yet.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

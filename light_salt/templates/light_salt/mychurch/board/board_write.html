@@ -1,0 +1,80 @@
+
+	
+{% extends 'mychurch/board/base.html' %}
+
+{% block content %}	
+
+		<div class="tile is-8 is-vertical">	
+			<div class="card">
+				<div class="card-content">
+				<form action="" method="post" name="frm" enctype="multipart/form-data">
+				    {% csrf_token %}
+					{{ form.non_field_errors }}
+					<input type="hidden" name="board_no" value="{{ board_no }}">
+					<input type="hidden" name="user_id" value="{{ user_id }}">
+					<input type="hidden" name="file_attach_yn" value="{{ file_attach_yn }}">
+					<input type="hidden" name="board_content_no" value="{{ board_content_no }}">
+					<input type="hidden" name="content" value="">
+					<input type="hidden" name="page" value="{{page}}">
+					<div class="fieldWrapper">
+						{{ form.subject.errors }}
+						<label for="id_subject">제목:</label>
+						{{ form.subject }}
+					</div>
+					<br>
+					{{ form.content.errors }}
+					<div class="fieldWrapper">
+						{{ form.content.errors }}
+						<textarea name="content" id="lightsalt" required></textarea>
+					</div>
+					<br>
+	            {% if file_attach_yn == 'Y' %}				
+					<div class="fieldWrapper">					
+						<label for="id_file_field">파일첨부:</label>
+						<input type="file" name="file_field" multiple id="id_file_field" />
+					</div> 
+					<br>
+				{% endif %}	
+					<div class="fieldWrapper">
+						{{ form.password.errors }}
+						<label for="id_password">비밀번호:</label>
+						{{ form.password }}
+					</div>
+					<p><a href="javascript:_submit()" class="button is-link is-active">저장</a></p>
+				</form>
+                </div>				
+			</div>				
+		</div>
+<script>
+  var justDeletedImg = "";
+  var justDeletedFile = "";
+  var default_init = "";
+  var prev_changed_block_id = "";
+  var csrf_token = '{{ csrf_token }}';
+  var imageUploadUrl="{% url 'mychurch:image_upload' board_no=board_no %}";
+  var deleteImageUrl="{% url 'mychurch:image_delete' board_no=board_no %}"
+  var recoveryImageUrl="{% url 'mychurch:image_recovery' board_no=board_no %}"
+  
+  function _submit()
+  {
+    f = document.frm
+	if( f.subject.value == "") {
+	    alert("제목을 입력하세요");
+		return;
+	}
+
+{% if board_contents.password %}
+    else if( f.password.value == "") {
+	    alert("비밀번호를 입력하세요");
+		return;
+	}
+{% endif %}	
+    //alert(tinyMCE.get('lightsalt').getContent());
+	
+	f.submit();
+  }
+
+</script>		
+<script src="/static/js/application/board_editor.js"></script>		
+
+{% endblock content %}    

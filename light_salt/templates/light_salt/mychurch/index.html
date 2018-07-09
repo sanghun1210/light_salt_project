@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="columns">
+	<div id="light-salt" v-cloak>
+      <!-- Django을 이용한 목록 출력 -->
+	  <p v-html="title1"></p>   
+	  
+	  <ul>
+       {% for day in days %}
+         <li><h4> Django Day {{ day }}</h4></li>
+       {% endfor %}
+      </ul>
+	  
+	  <!-- Vue을 이용한 목록 출력 -->
+	  <p><b>[[title2]]([[Date()]])<b></p>  
+	    <ul>
+          <li v-for="(todo, index) in todos">
+            <h4> [[index+1]] Day [[ todo.text]]</h4>
+          </li>
+        </ul>
+		
+	  <h1>카운터: [[ number ]]</h1>
+      <button @click="increment">증가</button>
+      <button @click="decrement">감소</button>
+	</div>
+</div>
+	<script>
+	new Vue({
+	  delimiters: ['[[', ']]'],
+	  el: '#light-salt',
+	  data: {
+		title1: '<b>Django list test</b>',
+		title2: 'Vue list test',
+		todos: [
+		  { text: 'Vue.js 튜토리얼 작성하기' },
+		  { text: 'Webpack2 알아보기' },
+		  { text: '사이드 프로젝트 진행하기' }
+		],
+		number: 0
+	  },
+	  methods: {
+		increment: function() {
+		  this.number++;
+		},
+		decrement: function() {
+		  this.number--;
+		}
+	  }
+	})
+	</script>
+{% endblock content %}

@@ -34,6 +34,18 @@ class MyHTMLParser(HTMLParser):
     def get_image_set(self):
         return self.data_list
 
+class MychurchAdmin(LoginRequiredMixin, TemplateView):
+
+     def get(self,request, church_no):
+
+         if    int(church_no) < 1:    
+             raise forms.ValidationError('Invalid access!!')
+
+         return  render(request, 'mychurch/admin/admin.html',{} )
+
+
+
+
 class MychurchIndex(LoginRequiredMixin, TemplateView):
     church_no=1
     board_no = []

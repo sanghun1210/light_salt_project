@@ -1,6 +1,5 @@
 html,body {
   font-family: 'Malgun Gothic','Nanum Gothic','Nanum GothicB', 'Open Sans', serif;
-  background: #1C1C1C;
 }
 footer {
   background-color: #F2F6FA !important;
@@ -62,44 +61,46 @@ article.post:last-child {
   padding: 5px;
 }
 
-
-
-
 /* main, sub-video style */
+div.main {
+    width: auto;
+    height: auto;
+    background-image: url(../img/background.jpg);
+    background-repeat: no-repeat;
+    background-size: 1440px 480px;
+    background-position: top;
+}
+
 video.main {
-  width: 800px;
-  height: 477px;
-  margin: auto;
+    width: 800px;
+    height: 477px;
+    margin: auto;
 }
-
-video.sub {
-  width: 180px;
-  height: 120px;
-  margin-right: 10px;
-  cursor:pointer;
-  background-color: black;
-  position: relative;
-}
-
 
 div.main-video {
-  width: 1000px;
-  height: 480px;
-  margin: auto;
+    width: 1100px;
+    height: 480px;
+    margin: auto;
+    background-color: #000000;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 div.church-info {
-  width: 180px;
-  display: inline-block;
-  vertical-align: top;
+    width: 240px;
+    height: 470px;
+    margin-top: 15px;
+    display: inline-block;
+    vertical-align: top;
 }
 
 li.church-info {
-  font-size: 20px;
-  color: #FFFFFF;
-  background-color: #626262;
+    width: 150px;
+    font-size: 20px;
+    color: #E6E6E6;
 }
 
 p.church-info {
-  color: #F2F2F2;
+    color: #FFFFFF;
 }
+
+

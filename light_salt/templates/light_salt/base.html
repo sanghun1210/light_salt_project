@@ -48,22 +48,29 @@
           <div class="navbar-item">
             <div class="field is-grouped">
               {% if user.is_authenticated %}
-              <p class="control">
-                <a class="button is-small" a href="/account/user-update">
-                  <span class="icon">
-                    <i class="fa fa-user"></i>
-                  </span>
-                  <span>My Profile</span>
-                </a>
-              </p>
-              <p class="control">
-                <a class="button is-small is-info is-outlined" a href="/auth/logout">
-                  <span class="icon">
-                    <i class="fa fa-sign-out"></i>
-                  </span>
-                  <span>Logout</span>
-                </a>
-              </p>
+              <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a class="navbar-link waves-effect waves-light" >
+                      <i class="fa fa-user-circle fa-fw" style="font-size:25px;"></i>
+                    {{ user.get_username }}
+                  </a>
+                  <div class="navbar-dropdown" data-style="width: 18rem">
+                    <a href="/profile/tony" class="navbar-item waves-effect waves-light">
+                      <i class="fa fa-cog"></i>&nbsp;
+                      설정
+                    </a>
+                    <a href="/accounts/password/change/" class="navbar-item waves-effect waves-light">
+                      <i class="fa fa-credit-card"></i>&nbsp;
+                      결제
+                    </a>
+                    <hr class="navbar-divider">
+                    <a href="/auth/logout" class="navbar-item waves-effect waves-light">
+                      <i class="fa fa-sign-out fa-2"></i>&nbsp;
+                      Log out
+                    </a>
+                  </div>
+                </div>
+            </div>
               {% else %}
               <p class="control">
                 <a class="button is-small" a href="/account/sign-up">

@@ -1,7 +1,7 @@
 {% extends "account/base_account.html" %}
 {% load i18n static %}
 
-{% block extrastyle %}{{ block.super }}
+{% block extrastyle %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700"  />
 <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}" />
@@ -53,7 +53,7 @@
                     </form>
                 </div>
                 <p class="has-text-grey">
-                    <a href="../">Sign Up</a> &nbsp;·&nbsp;
+                    <a href="/account/sign-up">Sign Up</a> &nbsp;·&nbsp;
                     <a href="../">Forgot Password</a> &nbsp;·&nbsp;
                     <a href="../">Need Help?</a>
                 </p>

@@ -52,9 +52,9 @@ class LightSaltUser(AbstractBaseUser, TimeStampedModel, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     member_type_code = models.CharField(max_length=2, blank=False)
 
-    USERNAME_FIELD = "name"
-    EMAIL_FIELD = "email"
-    REQUIRED_FIELDS = ["member_id", "email"]
+    EMAIL_FIELD = 'email'
+    USERNAME_FIELD = 'member_id'
+    REQUIRED_FIELDS = ['email', 'name']
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

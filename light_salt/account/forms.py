@@ -1,11 +1,85 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth import (
+    authenticate, get_user_model, password_validation,
+)
 from .models import LightSaltUser, LightSaltPastor
+from django.utils.translation import gettext_lazy as _
+from django.template.defaultfilters import capfirst
 
 #####################
 ### 사용자 정보 관리 폼
 
-class LightSaltUserCreationForm(forms.ModelForm):
+UserModel = get_user_model()
+
+class UserLoginForm(forms.Form):
+    member_id = forms.CharField(
+        max_length=254,
+        widget=forms.TextInput(attrs={'autofocus': True, 'placeholder':"ID", 'class':"input is-large"}),
+    )
+    password = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'placeholder':"Password", 'class':"input is-large"}),
+    )
+
+    error_messages = {
+        'invalid_login': _(
+            "Please enter a correct %(member_id)s and password. Note that both "
+            "fields may be case-sensitive."
+        ),
+        'inactive': _("This account is inactive."),
+    }
+
+    def __init__(self, request=None, *args, **kwargs):
+        """
+        The 'request' parameter is set for custom auth use by subclasses.
+        The form data comes in via the standard 'data' kwarg.
+        """
+        self.request = request
+        self.user_cache = None
+        super().__init__(*args, **kwargs)
+
+        # Set the label for the "username" field.
+        # pk 정의
+        self.username_field = UserModel._meta.get_field(UserModel.USERNAME_FIELD)
+
+    def clean(self):
+        member_id = self.cleaned_data.get('member_id')
+        password = self.cleaned_data.get('password')
+
+        #member_id가 pk이므로 
+        username = member_id
+
+        if username is not None and password:
+            self.user_cache = authenticate(self.request, username=username, password=password)
+            if self.user_cache is None:
+                raise forms.ValidationError(
+                    self.error_messages['invalid_login'],
+                    code='invalid_login',
+                    params={'member_id': 'ID'},
+                )
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
+
+    def confirm_login_allowed(self, user):
+        if not user.is_active:
+            raise forms.ValidationError(
+                self.error_messages['inactive'],
+                code='inactive',
+            )
+
+    def get_user_id(self):
+        if self.user_cache:
+            return self.user_cache.id
+        return None
+
+    def get_user(self):
+        return self.user_cache
+
+class UserCreationForm(forms.ModelForm):
     member_id = forms.CharField(label="Member Id")
     name = forms.CharField(label="Name")
     email = forms.EmailField(label="Email", max_length=150)
@@ -27,13 +101,13 @@ class LightSaltUserCreationForm(forms.ModelForm):
         return password2
 
     def save(self, commit=True):
-        user = super(LightSaltUserCreationForm, self).save(commit=False)
+        user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
         return user
 
-class LightSaltUserChangeForm(forms.ModelForm):
+class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:

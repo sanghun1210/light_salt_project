@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import LightSaltUser, LightSaltPastor
-from .forms import LightSaltUserCreationForm, LightSaltUserChangeForm, LightSaltPastorCreationForm, LightSaltPastorChangeForm
+from .forms import UserCreationForm, UserChangeForm, LightSaltPastorCreationForm, LightSaltPastorChangeForm
 
 
 
@@ -10,8 +10,8 @@ from .forms import LightSaltUserCreationForm, LightSaltUserChangeForm, LightSalt
 ### 사용자 정보 관리자 페이지
 
 class LightSaltUserAdmin(UserAdmin):
-    add_form = LightSaltUserCreationForm
-    form = LightSaltUserChangeForm
+    add_form = UserCreationForm
+    form = UserChangeForm
 
     list_display = ("member_id", "name", "email", "is_staff")
     list_filter = ("is_staff", "is_superuser", "is_active", "groups")

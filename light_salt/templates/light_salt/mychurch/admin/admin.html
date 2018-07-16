@@ -1,0 +1,120 @@
+﻿<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>빛과소금 - 우리교회</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Bulma Version 0.7.1-->
+	{% load static %}  
+	<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>  
+	<script src="{% static 'js/vue/vue.min.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'css/mychurch_admin.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/bulma.min.css' %}" />
+	<script src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+	<style>
+	  html,body {
+		font-family: 'Malgun Gothic','Nanum Gothic','Nanum GothicB', 'Open Sans', serif;
+		background: #FFFFFF;
+	  }
+	  .columns {
+		margin-top: 0;
+	  }
+	  section.column {
+		padding: 1rem;
+		font-size: 0.85rem;
+	  }
+	  .sidebar-header-single {
+		color: #000;
+		font-weight: 100;
+		font-size: 0.85rem;
+		border-left: 4px solid #ff0083;
+		padding-left: 0.75rem;
+	  }
+	  .menu-label {
+		padding: 0rem;
+		font-size: 0.9rem;
+	  }
+	</style>
+		
+</head>
+<body>
+<div id="app">
+    <div class="nprogress-container"></div>
+	<section class="hero is-bold app-navbar animated slideInDown">
+	    <div class="hero-head">
+		<nav class="nav">
+		    <div class="nav-left">
+			<a class="nav-item is-hidden-tablet">
+			    <i aria-hidden="true" class="fa fa-bars"></i>
+			</a>
+		    </div> 
+		    <div class="nav-center">
+			<a href="/" class="nav-item hero-brand">
+			    <div aria-label="v 0.1" class="is-hidden-mobile tooltip tooltip--right tooltip--success tooltip--small tooltip--rounded tooltip--always tooltip--no-animate">
+			         <span class="vue">우리교회 </span><strong class="admin">Admin</strong>
+			</div>
+			</a>
+	                </div> 
+                        <div class="nav-right is-flex"></div> 
+		</nav>
+	    </div>
+	</section>
+	<aside class="menu app-sidebar animated slideInLeft">
+	    <p class="menu-label"> 관리자</p>
+               <ul class="menu-list">
+                   <li>
+		  <a href="#/dashboard" class="is-active" aria-expanded="false"><span class="icon is-small"><i class="fa fa-tachometer"></i></span>
+                           기본 정보</a> <!---->
+	        </li>
+	        <li>
+		    <a href="#/axiosDemo" class="" aria-expanded="false"><span class="icon is-small"><i class="fa fa-rocket"></i></span>
+                              교인 정보 </a> <!---->
+                   </li>
+                  <li>
+	           <a href="#/charts" class="" aria-expanded="false"><span class="icon is-small"><i class="fa fa-bar-chart-o"></i></span>
+                          게시판 관리</a>
+                            <!-- <span class="icon is-small is-angle"><i class="fa fa-angle-down"></i></span></a>
+		             <ul data-v-43331adf="" class="collapse" style="height: 0px; display: none;">
+			       <li><a href="#/charts/chartist" class=""> Chartist  </a></li>
+			      <li><a href="#/charts/chartjs" class=""> Chartjs </a></li>
+			      <li><a href="#/charts/peity" class=""> Peity </a></li>
+			      <li><a href="#/charts/plotly" class=""> Plotly </a></li>
+		             </ul>-->
+	        </li>
+	       <li>
+	           <a><span class="icon is-small"><i class="fa fa-laptop"></i></span>
+                           메뉴 관리</a>
+                           <!--    <span class="icon is-small is-angle"><i class="fa fa-angle-down"></i></span></a> 
+			    <ul data-v-43331adf="" style="height: 0px; display: none;" class="collapse">
+				<li><a href="#/buttons" class=""> Buttons </a></li>
+				<li><a href="#/form" class=""> Form </a></li>
+				<li><a href="#/typography" class="">Typography </a></li>
+				<li><a href="#/icons" class=""> Icons </a></li>
+			     </ul>-->
+	        </li>
+	         <li>
+		    <a href="#/axiosDemo" class="" aria-expanded="false"><span class="icon is-small"><i class="fa fa-rocket"></i></span>
+                              Layout 관리 </a> <!---->
+                   </li>
+	   </ul>
+          </aside> 
+		  
+           <!-- MAIN 시작 -->
+          <section class="app-main">
+	    <div class="container is-fluid is-marginless app-content">
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	    </div>
+	</section> 
+	
+	<!-- FOOTER 시작 -->
+	<footer class="footer">
+	    <div class="container">
+		<div class="content has-text-centered">
+		     <p><span class="icon"> ©</span> 2018 Coded by <span class="icon"><i class="fa fa-heart"></i></span> <a href="#">LIGHT&SALT </a>.</p>
+   		    <p>All rights reserved.</p>
+		</div>
+	     </div>
+           </footer>
+</div>
+</body>

@@ -1,10 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import LightSaltUser, LightSaltPastor
-from .forms import UserCreationForm, UserChangeForm, LightSaltPastorCreationForm, LightSaltPastorChangeForm
-
-
-
+from .models import LightSaltUser, LightSaltPastor, Believer
+from .forms import ( UserCreationForm, UserChangeForm, LightSaltPastorCreationForm, 
+                    LightSaltPastorChangeForm, BelieverCreationForm, BelieverChangeForm )
 
 ###########################
 ### 사용자 정보 관리자 페이지
@@ -50,5 +48,23 @@ class LightSaltPastorAdmin(admin.ModelAdmin):
         }),
     )
 
+class BelieverAdmin(admin.ModelAdmin):
+    add_form = BelieverCreationForm
+    form = BelieverChangeForm
+
+    list_display = ("nick_name", "duty_code", "consult_yn", "board_create_yn", "member_id", "church_no")
+    serach_fields = ("nick_name", "member_id", "church_no")
+    ordering = ("nick_name",)
+    fieldsets = (
+        (None, {"fields" : ("nick_name", "duty_code", "consult_yn", "board_create_yn", "member_id", "church_no")}),       
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('nick_name', 'duty_code', 'consult_yn', 'board_create_yn', 'member_id', 'church_no'),
+        }),
+    )
+
 admin.site.register(LightSaltUser, LightSaltUserAdmin)
 admin.site.register(LightSaltPastor, LightSaltPastorAdmin)
+admin.site.register(Believer, BelieverAdmin)

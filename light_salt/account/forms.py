@@ -3,7 +3,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth import (
     authenticate, get_user_model, password_validation,
 )
-from .models import LightSaltUser, LightSaltPastor
+from .models import LightSaltUser, LightSaltPastor, Believer
 from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import capfirst
 
@@ -88,7 +88,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = LightSaltUser
-        fields = ("member_id", "name", "email")
+        fields = ("member_id", "name", "email",)
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -101,7 +101,7 @@ class UserCreationForm(forms.ModelForm):
         return password2
 
     def save(self, commit=True):
-        user = super(UserCreationForm, self).save(commit=False)
+        user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
@@ -112,7 +112,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = LightSaltUser
-        fields = ("member_id", "name", "email")
+        fields = ("member_id", "name", "email")        
 
     def clean_password(self):
         return self.initial["password"]
@@ -135,3 +135,25 @@ class LightSaltPastorChangeForm(forms.ModelForm):
     class Meta:
         model = LightSaltPastor
         fields = ("pastor_id", "church_name", "church_post", "church_address", "authentication_yn")
+
+
+#####################
+### 신도 관리 폼
+
+class BelieverCreationForm(forms.ModelForm):
+    nick_name = forms.CharField(label="nick_name")
+    duty_code = forms.CharField(label="duty_code")
+    consult_yn = forms.BooleanField(label="consult_yn")
+    board_create_yn = forms.BooleanField(label="board_create_yn")
+
+    member_id = forms.ModelChoiceField(queryset=LightSaltUser.objects.all())
+    church_no = forms.ModelChoiceField(queryset=LightSaltPastor.objects.all())
+
+    class Meta:
+        model = Believer
+        fields = {'nick_name', 'duty_code', 'consult_yn', 'board_create_yn', 'member_id', 'church_no'}
+
+class BelieverChangeForm(forms.ModelForm):
+    class Meta:
+        model = Believer
+        fields = {'nick_name', 'duty_code', 'consult_yn', 'board_create_yn', 'member_id', 'church_no'}

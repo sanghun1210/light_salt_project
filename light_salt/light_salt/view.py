@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.core import serializers
 from video.models import LSVD001M
-from account.models import LightSaltPastor 
+from account.models import LightSaltPastor
 
 
 def main(request):

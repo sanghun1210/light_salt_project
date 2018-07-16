@@ -64,17 +64,15 @@ class LightSaltUser(AbstractBaseUser, TimeStampedModel, PermissionsMixin):
 
     class Meta:
         db_table="LSMB001M"
+        verbose_name = u'LSMB001M - 회원정보'
+        verbose_name_plural = u'LSMB001M - 회원정보'
 
     def get_absolute_url(self): 
         return reverse('main') 
 
 #####################
-### 목사 정보 관리
+### 교회 정보 
 
-class LightSaltPastorManager(models.Manager):
-    use_in_migrations = True
-
-# 목사 테이블
 class LightSaltPastor(TimeStampedModel):
     church_no = models.AutoField(primary_key=True)
     pastor_id = models.CharField(max_length=30, 
@@ -93,10 +91,29 @@ class LightSaltPastor(TimeStampedModel):
     church_address = models.CharField(max_length=300)
     authentication_yn = models.BooleanField(default=False)
 
-    objects = LightSaltPastorManager()
-
     class Meta:
         db_table="LSMB002M"
+        verbose_name = u'LSMB002M - 교회정보'
+        verbose_name_plural = u'LSMB002M - 교회정보'
 
     def get_absolute_url(self): 
         return reverse('pastor_detail', kwargs={"church": self.church_no}) 
+
+
+#####################
+### 교회 신도정보
+
+class Believer(TimeStampedModel):
+    nick_name = models.CharField(max_length=30)
+    duty_code = models.CharField(max_length=6)
+    consult_yn = models.BooleanField(default=False)
+    board_create_yn = models.BooleanField(default=False)
+    user_id = models.CharField(max_length=100)
+
+    member_id = models.ForeignKey(LightSaltUser, on_delete=models.CASCADE,)
+    church_no = models.ForeignKey(LightSaltPastor, on_delete=models.CASCADE,)
+
+    class Meta:
+        db_table="LSMB003I"
+        verbose_name = u'LSMB003I - 신자정보'
+        verbose_name_plural = u'LSMB003I - 신자정보'

@@ -1,7 +1,9 @@
 {% extends "account/base_site.html" %}
 {% load i18n static %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700"  />
 {{ form.media }}
 {% endblock %}
 
@@ -25,6 +27,6 @@
         {% endfor %}
       </p>
     {% endfor %}
-    <button type="submit">Sign up</button>
+    <button type="submit" class="button is-link">Sign up</button>
   </form>
 {% endblock %}

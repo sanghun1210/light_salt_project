@@ -1,0 +1,66 @@
+{% extends "account/base_account.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700"  />
+<link rel="stylesheet" href="{% static 'css/bulma.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" />
+{{ form.media }}
+{% endblock %}
+
+{% block content %}
+<section class="hero is-success is-fullheight">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+                <h3 class="title has-text-grey">SIGN IN</h3>
+                <p class="subtitle has-text-grey">Sign in to your account.</p>
+                <div class="box">
+                    <figure class="avatar">
+                        <img src={% static "img/login_church.png" %} />
+                    </figure>
+                    {% if form.errors and not form.non_field_errors %}
+                        <p class="errornote">
+                        {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+                        </p>
+                    {% endif %}
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <p class="errornote">
+                            {{ error }}
+                            </p>
+                        {% endfor %}
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="field">
+                            {{ form.member_id.errors }}
+                            {{ form.member_id }}
+                        </div>
+                        <div class="field">
+                            {{ form.password.errors }}
+                            {{ form.password }}
+                        </div>
+
+                        <div class="field">
+                            <label class="checkbox">
+                                <input type="checkbox"> Remember me
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="button is-block is-info is-large is-fullwidth">Login</button>
+                    </form>
+                </div>
+                <p class="has-text-grey">
+                    <a href="../">Sign Up</a> &nbsp;·&nbsp;
+                    <a href="../">Forgot Password</a> &nbsp;·&nbsp;
+                    <a href="../">Need Help?</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<script async type="text/javascript" src="{% static "js/bulma.js" %}"></script>
+{% endblock %}
+

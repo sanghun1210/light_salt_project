@@ -2,20 +2,21 @@ html,body {
   font-family: 'Malgun Gothic','Nanum Gothic','Nanum GothicB', 'Open Sans', serif;
 }
 footer {
-  background-color: #F2F6FA !important;
+  background-color: #FFFFFF !important;
+  margin-top: 150px;
 }
 .topNav {
-  border-top: 5px solid #3498DB;
+  border-top: 5px solid #424242;
 }
 .topNav .container {
-  border-bottom: 1px solid #E6EAEE;
+  border-bottom: 1px solid #1C1C1C;
 }
 .container .columns {
   margin: 3rem 0;
 }
 .navbar-menu .navbar-item {
   padding: 0 1rem;
-  color: #424242;
+  font-weight: bold;
 }
 div.navbar-start {
   margin-left: 400px;
@@ -64,43 +65,50 @@ article.post:last-child {
 /* main, sub-video style */
 div.main {
     width: auto;
-    height: auto;
-    background-image: url(../img/background.jpg);
-    background-repeat: no-repeat;
-    background-size: 1440px 480px;
+    height: 420px;
+    background-color: #424242;
     background-position: top;
 }
 
 video.main {
-    width: 800px;
-    height: 477px;
+    width: 700px;
+    height: 420px;
     margin: auto;
+    background-color: #000000;
+    background-image: url(/static/img/woman_pray.jpg);
+    background-size: cover;
 }
 
 div.main-video {
-    width: 1100px;
-    height: 480px;
+    width: 1000px;
+    height: 420px;
     margin: auto;
     background-color: #000000;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
 div.church-info {
-    width: 240px;
-    height: 470px;
+    width: 280px;
+    height: 420px;
     margin-top: 15px;
+    padding-left: 20px;
     display: inline-block;
     vertical-align: top;
 }
 
-li.church-info {
-    width: 150px;
-    font-size: 20px;
+p.church-name {
+    width: 280px;
+    height: 60px;
+    font-size: 22px;
+    font-weight: 600;
     color: #E6E6E6;
+    display: flex;
+    align-items: center;
 }
 
-p.church-info {
+p.church-comment {
     color: #FFFFFF;
+    padding-left: 5px;
 }
 
 

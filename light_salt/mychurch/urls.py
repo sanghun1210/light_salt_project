@@ -4,7 +4,8 @@ from django.conf.urls import url
 from django.conf import settings
 from django.views.generic import TemplateView
 
-from mychurch.views import MychurchIndex, Board, BoardView, BoardWrite, BoardEdit, DeleteFile, Comments, ImageUpload, ImageDelete, ImageRecovery,MychurchAdmin
+from mychurch.views import MychurchIndex, Board, BoardView, BoardWrite, BoardEdit, DeleteFile, \
+     Comments, ImageUpload, ImageDelete, ImageRecovery,MychurchAdmin, MyMembers
 from mychurch import views
 
 app_name = 'mychurch'
@@ -13,6 +14,7 @@ urlpatterns = [
     # ex: /mychurch/
     path('', MychurchIndex.as_view(), name='index'),
     path('admin/<int:church_no>/', MychurchAdmin.as_view(), name='myadmin'),
+    path('admin/<int:church_no>/mymembers/', MyMembers.as_view(), name='mymembers'),
     path('board/', Board.as_view(), name='board_index'),
     path('board/<int:board_no>/', Board.as_view(), name='board_list'),
     path('board/<int:board_no>/view/<int:board_content_no>/', BoardView.as_view(), name='board_view'),

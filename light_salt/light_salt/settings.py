@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'account',
     'debug_toolbar',
     'video',
+    #'video.apps.VideoConfig',
 ]
 
 MIDDLEWARE = [
@@ -174,3 +175,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 # 유저 모델 정의
 AUTH_USER_MODEL = 'account.LightSaltUser'
 
+ASGI_APPLICATION = 'light_salt.routing.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

@@ -1,0 +1,149 @@
+{% extends 'mychurch/admin/admin.html' %}
+
+{% block content %}
+<div class="tile is-ancestor">
+      <div class="tile is-parent">
+         <article class="tile is-child box">
+             <h4 class="title">우리교회 교인 목록</h4>
+             <div class="table-responsive">
+	   <form action="" method="get" name="fm" >  
+	   <input type="hidden" name="page" value="{{page}}">
+	   {% csrf_token %}
+	    <p data-v-6f9e058f="" class="control has-addons">
+	      <span class="select">
+		 <select name="searchKey">
+		     <option value="nick">닉네임</option>
+  		     <option value="id">ID</option> 
+		     <option value="duty">직분</option>
+	            </select>
+	       </span> 
+	       <input type="text" name="searchStr" value="{{ searchStr }}" placeholder="" class="input"> 
+	       <a href="javascript:_search()" class="button is-info">검색    </a>
+	    </p>	 
+	    </form>	 	
+	     
+                <table class="table is-bordered is-striped is-narrow">
+                <thead>
+                    <tr><th></th> 
+                        <th>닉네임</th> 
+                        <th>ID</th>
+                        <th>메일주소</th>
+                        <th>관리자여부</th>
+                        <th>회원상태</th>						
+                        <th>직분</th>
+                        <th>상담권한</th>
+                        <th>게시판권한</th>		
+                   </tr>
+                </thead>
+                <tbody>
+               {% for member in members %}
+                 <tr>
+                        <td class="is-icon"><i class="fa fa-android"></i></td>
+                        <td> {{ member.nick_name }}</td> 
+                        <td>{{ member.uid }}</td> 
+                        <td>{{ member.email}}</td> 
+                        <td>
+		        <select id='is_admin' name='is_admin' onChange="changeInfo('{{ member.uid }}','is_admin', 'M', this.value, '{{ member.id }}')">
+		               <option value="1" {% if member.is_admin %} selected {% endif %}>True</option>
+		               <option value="0" {% if not member.is_admin %} selected {% endif %}>False</option>
+		         </select>
+		   </td> 
+		   <td>
+		    {% if  member.is_active %}
+		         활동중
+                         {% else  %}
+                               탈퇴
+                         {% endif %}							   
+	             </td> 
+                        <td>
+		        <select id='duty_code' name='duty_code' onChange="changeInfo('{{ member.uid }}', 'duty_code', 'D', this.value, '{{ member.id }}')">
+		        {% for key, value in duty_cd.items  %} 
+			    {% if  member.duty_code == key %}
+		                    <option value="{{key}}" selected>{{value}}</option>
+		               {% else %}
+			          <option value="{{key}}"> {{value}}</option>
+		               {% endif %}
+		         {% endfor %}
+		         </select>	  
+		  </td> 					
+                        <td>
+		         <select id='consult_yn' name='consult_yn' onChange="changeInfo('{{ member.uid }}', 'consult_yn', 'D', this.value, '{{ member.id }}')">
+		             <option value="1" {% if member.consult_yn %} selected {% endif %}>True</option>
+			  <option value="0" {% if not member.consult_yn %} selected {% endif %}>False</option>
+		         </select>
+		  </td> 
+                        <td>
+		       <select id='board_create_yn' name='board_create_yn' onChange="changeInfo('{{ member.uid }}', 'board_create_yn', 'D', this.value, '{{ member.id }}')">
+		             <option value="1" {% if member.board_create_yn %} selected {% endif %}>True</option>
+			  <option value="0" {% if not member.board_create_yn %} selected {% endif %}>False</option>
+		         </select>
+		  </td> 
+                  </tr> 
+               {% endfor %} 
+               </tbody>
+               </table>
+             </div>
+         </article>
+    </div>
+</div>
+    <ul class="pagination">
+	{% if page_list.has_previous %}
+	  <li><a href="?page={{ page_list.previous_page_number }}">&laquo;</a></li>
+	{% else %}
+	  <li class="disabled"><span>&laquo;</span></li>
+	{% endif %}
+	{% for i in page_list.paginator.page_range %}
+	  {% if page_list.number == i %}
+		<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+	  {% else %}
+		<li><a href="?page={{ i }}">{{ i }}</a></li>
+	  {% endif %}
+	{% endfor %}
+	{% if page_list.has_next %}
+	  <li><a href="?page={{ page_list.next_page_number }}">&raquo;</a></li>
+	{% else %}
+	  <li class="disabled"><span>&raquo;</span></li>
+	{% endif %}
+    </ul>	
+
+<script>
+
+    function changeInfo(id, item, type, val, no)
+	{
+	    $.ajax({
+        type: "POST",
+        url : '{% url 'mychurch:mymembers' church_no=church_no %}',
+        data : {'csrfmiddlewaretoken': '{{ csrf_token }}', 
+		        member_id: id , 
+				item: item, 
+				type: type,
+				val: val,
+				member_no: no
+				},
+        success:function(data){
+          //$('body').append(data)
+
+        },
+		error: function(request, status, error){ 
+		  alert(error);
+		}
+      });
+	}
+	function _search()
+    {
+	    var f = document.fm;
+	    if( f.searchStr.value=="" ) {
+		    alert("검색할 내용을 입력하세요");
+		    f.searchStr.focus();
+		    return;
+	    }
+	    f.action="{% url 'mychurch:mymembers' church_no=church_no %}";
+	    f.submit();
+    }
+	
+</script> 
+
+ {% endblock content %}  
+
+  
+  

@@ -24,12 +24,11 @@
 </head>
 
 <body>
-  <nav class="navbar is-white topNav">
+  <nav class="navbar is-black topNav">
     <div class="container">
       <div class="navbar-brand">
         <a class="navbar-item" href="../">
-          <!--<img src="../images/bulma.png" width="112" height="28"> -->
-          <font size="6" face="verdana" color="#0174DF" style="font-weight:bold">Light & Salt</font>
+          <font size="6" face="verdana" color="#FFFFFF" style="font-weight:bold">Light<img src={% static "img/light.jpg" %} width="60px" height="auto">Salt</font>
         </a>
         <div class="navbar-burger burger" data-target="topNav">
           <span></span>
@@ -39,8 +38,8 @@
       </div>
       <div id="topNav" class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item" href="cover.html">HOME</a>
-          <a class="navbar-item" href="blog.html">MEDIA</a>
+          <a class="navbar-item" href="/">HOME</a>
+          <a class="navbar-item" href="media">MEDIA</a>
           <a class="navbar-item" href="instaAlbum.html">MY CHURCH</a>
           <a class="navbar-item" href="search.html">SEARCH</a>
         </div>
@@ -55,7 +54,7 @@
                     {{ user.get_username }}
                   </a>
                   <div class="navbar-dropdown" data-style="width: 18rem">
-                    <a href="/profile/tony" class="navbar-item waves-effect waves-light">
+                    <a href="/account/settings/user-information" class="navbar-item waves-effect waves-light">
                       <i class="fa fa-cog"></i>&nbsp;
                       설정
                     </a>
@@ -97,32 +96,18 @@
       </div>
   </nav>
 
-
+  <div class="main">
   {% block content %}
   <section class="container">
     <div class="main-video">
 
-      <video id="video" poster="/static/img/woman_pray.jpg" class="main" controls preload="none">
+      <video id="video" class="main" controls preload="none">
       </video>
 
       <div class="church-info">
-        <ul>
-          <li class="church-info">Church Name</li>
-          <p class="church-info" id="church_name"></p>
-          <br>
-          <br>
-          <br>
-          <li class="church-info">Church Address</li>
-          <p class="church-info" id="church_address"></p>
-          <br>
-          <br>
-          <br>
-          <li class="church-info">Pastor</li>
-          <p class="church-info" id="church_pastor"></p>
-          <br>
-          <br>
-          <br>
-        </ul>
+	  <p class="church-name" id="church_name"></p>
+	  <br>
+	  <p class="church-comment">하나님은 언제나 여러분을 기다리고 있습니다.</p>
       </div>
 
     </div>
@@ -190,50 +175,50 @@
     </div>
 
     <script>
-      /* media setting */
-      var server_address = '{{server_address}}'
-      server_address = server_address.replace(/&quot;/g, "\"")
+	    var video = document.getElementById('video');
+                     video.onplay = function() {
+                     video.style.background = 'black';
+            };
+                        
+            /* media setting */
+            var server_address = '{{server_address}}';
+            server_address = server_address.replace(/&quot;/g, "\"");
 
-      var json_server_address = JSON.parse(server_address)
-      var server_address_list = new Array();
+            var json_server_address = JSON.parse(server_address);
+            var server_address_list = new Array();
 
-      for (var i in json_server_address)
-        server_address_list[i] = json_server_address[i].fields.server_address
+            for(var i in json_server_address)
+                 server_address_list[i] = json_server_address[i].fields.server_address;
 
-      var video = document.getElementById('video');
-      var random_index = Math.floor(Math.random() * server_address_list.length)
-      $("#video").attr("src", server_address_list[random_index])
-      //video.play()
+            var video = document.getElementById('video');
+            var random_index = Math.floor(Math.random() * server_address_list.length);
+            $("#video").attr("src", server_address_list[random_index]);
+            //video.play()
 
-      var img_list = document.querySelectorAll('img')
-      function addClickHandler(img, j) {
-        img.addEventListener('click', function (e) {
-          var video = document.getElementById('video');
-          $("#video").attr("src", server_address_list[j])
-          video.play()
-        }, false)
-      }
+            var img_list = document.querySelectorAll('img')
+            function addClickHandler(img, j){
+                 img.addEventListener('click', function(e){
+                 $("#video").attr("src", server_address_list[j])
+                 video.play()              
+               }, false)
+            }
 
-      for (var j = 0; j < img_list.length; j++)
-        addClickHandler(img_list[j], j)
+            for(var j=0 ; j<img_list.length ; j++)
+                addClickHandler(img_list[j], j);
 
-      /* church info */
-      var church_info = '{{church_info}}'
-      church_info = church_info.replace(/&quot;/g, "\"")
-      var json_church_info = JSON.parse(church_info)
+            /* church info */
+            var church_info = '{{church_info}}';
+            church_info = church_info.replace(/&quot;/g, "\"");
+            var json_church_info = JSON.parse(church_info);
 
-      var church_name = document.getElementById('church_name')
-      church_name.innerHTML = json_church_info[(json_server_address[random_index].fields.church_no) - 1].fields.church_name
+            var church_name = document.getElementById('church_name');
+            church_name.innerHTML = '<img src="{% static 'img/1.jpg' %}" width="80px" height="80px">' + "&nbsp;&nbsp;" + json_church_info[(json_server_address[random_index].fields.church_no)-1].fields.church_name;
 
-      var church_address = document.getElementById('church_address')
-      church_address.innerHTML = json_church_info[(json_server_address[random_index].fields.church_no) - 1].fields.church_address
-
-      var church_paster = document.getElementById('church_pastor')
-      church_paster.innerHTML = json_church_info[(json_server_address[random_index].fields.church_no) - 1].fields.pastor_id
     </script>
 
   </section>
   {% endblock content %}
+  </div>
 
   {% block footer %}
   <footer class="footer">

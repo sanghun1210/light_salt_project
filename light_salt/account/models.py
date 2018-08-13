@@ -115,5 +115,6 @@ class Believer(TimeStampedModel):
 
     class Meta:
         db_table="LSMB003I"
+        managed = True
         verbose_name = u'LSMB003I - 신자정보'
         verbose_name_plural = u'LSMB003I - 신자정보'

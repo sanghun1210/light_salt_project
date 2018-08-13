@@ -5,6 +5,8 @@ from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.db import connection, transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import LSCH004M, LSCH003M, LSCH006D, LSCH005D
+from  account.models import LightSaltUser, Believer
+
 from django.views.generic import TemplateView, UpdateView
 from django.shortcuts import get_object_or_404
 from mychurch.pagingHelper import pagingHelper
@@ -36,15 +38,79 @@ class MyHTMLParser(HTMLParser):
 
 class MychurchAdmin(LoginRequiredMixin, TemplateView):
 
-     def get(self,request, church_no):
+    def get(self,request, church_no):
 
-         if    int(church_no) < 1:    
-             raise forms.ValidationError('Invalid access!!')
+        if    int(church_no) < 1:    
+            raise forms.ValidationError('Invalid access!!')
 
-         return  render(request, 'mychurch/admin/admin.html',{} )
+        return  render(request, 'mychurch/admin/admin.html',{'church_no':church_no} )
 
+class MyMembers(LoginRequiredMixin, TemplateView):
+    #To-Do : code 정보에서 추출
+    duty_cd = {'D001':'목사', 'D002':'장로', 'D003':'집사', 'D004':'일반신도'}
 
+    #교인목록 조회
+    def get(self,request, church_no):
 
+        page = request.POST.get('page')
+        searchStr = request.GET.get('searchStr')
+        searchKey = request.GET.get('searchKey')
+
+        if  int(church_no) < 1:    
+            raise forms.ValidationError('Invalid access!!')
+
+       # members = Believer.objects.filter(church_no_id=church_no).select_related('LightSaltUser__id').values( 'nick_name','duty_code', 'consult_yn', 'board_create_yn')
+        if searchKey == "nick":
+            members =  Believer.objects.raw("""SELECT a.id, b.member_id as uid, a.nick_name, a.duty_code, a.consult_yn,a.board_create_yn, b.is_admin, b.email, b.is_active \
+        FROM LSMB003I as a , LSMB001M as b \
+        WHERE a.church_no_id = %s AND a.member_id_id=b.id AND a.nick_name LIKE CONCAT('%%',%s,'%%')""", [church_no, searchStr])
+        elif searchKey == 'id' :
+            members =  Believer.objects.raw("""SELECT a.id, b.member_id as uid, a.nick_name, a.duty_code, a.consult_yn,a.board_create_yn, b.is_admin, b.email, b.is_active \
+        FROM LSMB003I as a , LSMB001M as b \
+        WHERE a.church_no_id = %s AND a.member_id_id=b.id AND b.member_id LIKE CONCAT('%%',%s,'%%')""", [church_no, searchStr])
+        elif searchKey == 'duty' :
+            #TO-DO : join with code table for searching..
+            members =  Believer.objects.raw("""SELECT a.id, b.member_id as uid, a.nick_name, a.duty_code, a.consult_yn,a.board_create_yn, b.is_admin, b.email, b.is_active \
+        FROM LSMB003I as a , LSMB001M as b \
+        WHERE a.church_no_id = %s AND a.member_id_id=b.id""", [church_no])
+        else :
+             members =  Believer.objects.raw('''SELECT a.id, b.member_id as uid, a.nick_name, a.duty_code, a.consult_yn,a.board_create_yn, b.is_admin, b.email, b.is_active FROM LSMB003I as a , LSMB001M as b WHERE a.church_no_id = %s AND a.member_id_id=b.id''', [church_no])
+        
+        paginator = Paginator(list(members), 20) # Show count board list per page
+        try:
+            page_list = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            page_list = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            page_list = paginator.page(paginator.num_pages)
+        
+        return  render(request, 'mychurch/admin/mychurch_members.html',{'church_no':church_no, 'members':members,  'duty_cd':self.duty_cd, 'page_list': page_list, 'page':page} )
+
+    def post(self,request, church_no):
+         #
+        memberId = request.POST.get('member_id')
+        memberNo = request.POST.get('member_no')
+        type = request.POST.get('type')
+        item = request.POST.get('item')
+        value = request.POST.get('val')
+
+        if type == 'M':
+            LightSaltUser.objects.filter(member_id=memberId).update(**{item: value})
+        else:
+            #Believer.objects.filter(Believer__member_id=memberId).filter(Believer__church_no=church_no).update(**{item: value})
+            cursor = connection.cursor()
+            if item == 'duty_code' :
+                cursor.execute('''UPDATE LSMB003I SET duty_code=%s WHERE church_no_id=%s AND member_id_id=%s''', [value,church_no,memberNo])
+            elif item == 'consult_yn' :
+                cursor.execute('''UPDATE LSMB003I SET consult_yn=%s WHERE church_no_id=%s AND member_id_id=%s''', [value,church_no,memberNo])
+            elif item == 'board_create_yn' :
+                cursor.execute('''UPDATE LSMB003I SET board_create_yn=%s WHERE church_no_id=%s AND member_id_id=%s''', [value,church_no,memberNo])
+            else :
+                raise forms.ValidationError('Invalid access error')	
+
+        return  render(request, 'mychurch/admin/mychurch_members.html', {'church_no':church_no,})
 
 class MychurchIndex(LoginRequiredMixin, TemplateView):
     church_no=1
@@ -155,9 +221,9 @@ class Board(LoginRequiredMixin, TemplateView):
         page = request.POST.get('page')
         	
         if searchKey == "1":
-            board_list = LSCH004M.objects.raw("""SELECT a.board_content_no, a.board_no, a.subject, a.content, \
+            board_list = LSCH004M.objects.raw("""SELECT a.board_content_no, a.board_no, a.subject, a.content,\
             a.hit_count, a.password, a.create_time, b.name as user_id \
-            FROM LSCH004M as a, LSMB001M as b WHERE a.user_id=b.member_id AND board_no=%s AND a.subject LIKE CONCAT('%%',%s,'%%') \
+            FROM LSCH004M as a, LSMB001M as b WHERE a.user_id=b.member_id AND board_no=%s AND a.subject LIKE CONCAT('%%',%s,'%%')\
             ORDER BY group_no DESC, group_order ASC """, [board_no, searchStr])  
         elif searchKey == "2":
             board_list = LSCH004M.objects.raw("""SELECT a.board_content_no, a.board_no, a.subject, a.content, \

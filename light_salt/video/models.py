@@ -1,4 +1,7 @@
+from __future__ import unicode_literals
+
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class LSVD001M(models.Model):
@@ -26,6 +29,8 @@ class LSVD001M(models.Model):
 
 class LSVD002M(models.Model):
     video_no = models.BigIntegerField(primary_key=True)
+    pastor_id = models.CharField(max_length=30, blank=False, null=False, unique=True, help_text=_('Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.'),)
+    stream_key = models.CharField(max_length=30, null=False, unique=True)
     broadcast_time = models.DateTimeField(null=False)
     max_viewer_count = models.IntegerField(null=False)
     broadcast_start_time = models.TimeField()

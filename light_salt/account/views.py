@@ -1,8 +1,8 @@
 from django.contrib.auth.views import LoginView as DjangoLoginView
-from django.views.generic import CreateView, UpdateView, DetailView, ListView, FormView
+from django.views.generic import CreateView, UpdateView, DetailView, ListView, FormView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import UserLoginForm, UserCreationForm, LightSaltPastorCreationForm
+from .forms import UserLoginForm, UserCreationForm, LightSaltPastorCreationForm, SettingsUserUpdateForm
 from .models import LightSaltPastor, LightSaltUser
 from django.conf import settings
 
@@ -71,10 +71,26 @@ class PastorActionMixin(object):
         messages.info(self.request, msg)
         return super(PastorActionMixin, self).form_valid(form)
 
-class PastorCreateView(LoginRequiredMixin, CreateView):
+class PastorCreateView(LoginRequiredMixin, TemplateView):
     model = LightSaltPastor
     action = "created"
-    form_class = LightSaltPastorCreationForm
+    template_name = 'account/church_config.html'
 
 class PastorDetailView(LoginRequiredMixin, DetailView):
     model = LightSaltPastor
+
+class SettingsUserInformationView(LoginRequiredMixin, FormView):
+    model = LightSaltUser
+    action = "created"
+    form_class = SettingsUserUpdateForm
+    template_name = 'account/settings_user_information.html'
+
+class SettingsUserPasswordView(LoginRequiredMixin, TemplateView):
+    model = LightSaltPastor
+    action = "created"
+    template_name = 'account/settings_user_password.html'
+
+class SettingsChurchInformationView(LoginRequiredMixin, TemplateView):
+    model = LightSaltPastor
+    action = "created"
+    template_name = 'account/settings_church_information.html'

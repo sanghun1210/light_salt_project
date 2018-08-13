@@ -15,17 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf import settings
-from django.conf.urls import url
-from django.urls import include, path
+from django.conf.urls import url, include
+from django.urls import path
 from . import view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', view.main, name='main'),
+    path('media/', include('video.urls')),
     path('auth/', include('django.contrib.auth.urls')),
     path('account/', include('account.urls')),
     path('mychurch/', include('mychurch.urls')),
-    #path('media/', include('video.urls'))
 ]
 
 if settings.DEBUG:

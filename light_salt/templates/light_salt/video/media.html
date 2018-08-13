@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -13,112 +14,214 @@
         
         <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}" />
         <link rel="stylesheet" href="{% static 'css/bulma-extensions.min.css' %}" />
-		<link rel="stylesheet" href="{% static 'css/light_salt.css' %}" />
+  		  <link rel="stylesheet" href="{% static 'css/light_salt.css' %}" />
         <link rel="stylesheet" href="{% static 'css/media.css' %}" />
 	</head>
+
 	<body>
-		<nav class="navbar is-white topNav">
+		<nav class="navbar is-black topNav" style="background-color: #1C1C1C;">
 			<div class="container">
 				<div class="navbar-brand">
 					<a class="navbar-item" href="../">
-						<!--<img src="../images/bulma.png" width="112" height="28"> -->
-                        <font size="6" face="verdana" color="#0174DF" style="font-weight:bold">Light & Salt</font>
+                        <font size="6" face="verdana" color="#FFFFFF" style="font-weight:bold">Light<img src="../static/img/light.jpg" width="60px" height="auto">Salt</font>
 					</a>
+
 					<div class="navbar-burger burger" data-target="topNav">
 						<span></span>
 						<span></span>
 						<span></span>
 					</div>
+
 				</div>
+
 				<div id="topNav" class="navbar-menu">
 					<div class="navbar-start">
-						<a class="navbar-item" href="../">HOME</a>
-						<a class="navbar-item" href="./">MEDIA</a>
-						<a class="navbar-item" href="instaAlbum.html">MY CHURCH</a>
-						<a class="navbar-item" href="search.html">SEARCH</a>
+						<a class="navbar-item" style="color: #FFFFFF;" href="../">HOME</a>
+						<a class="navbar-item" style="color: #FFFFFF;" href="./">MEDIA</a>
+						<a class="navbar-item" style="color: #FFFFFF;" href="instaAlbum.html">MY CHURCH</a>
+						<a class="navbar-item" style="color: #FFFFFF;" href="search.html">SEARCH</a>
 					</div>
+
 					<div class="navbar-end">
-						<div class="navbar-item">
-							<div class="field is-grouped">
-								<p class="control">
-									<a class="button is-small">
-										<span class="icon">
-											<i class="fa fa-user-plus"></i>
-										</span>
-										<span>
-											Register
-										</span>
-									</a>
-								</p>
-								<p class="control">
-									<a class="button is-small is-info is-outlined">
-										<span class="icon">
-											<i class="fa fa-user"></i>
-										</span>
-										<span>Login</span>
-									</a>
-								</p>
-							</div>
-						</div>
-					</div>
+                      <div class="navbar-item">
+                        <div class="field is-grouped">
+                          {% if user.is_authenticated %}
+                          <div class="navbar-end">
+                            <div class="navbar-item has-dropdown is-hoverable">
+                              <a class="navbar-link waves-effect waves-light" >
+                                  <i class="fa fa-user-circle fa-fw" style="font-size:25px;"></i>
+                                {{ user.get_username }}
+                              </a>
+                              <div class="navbar-dropdown" data-style="width: 18rem">
+                                <a href="/profile/tony" class="navbar-item waves-effect waves-light">
+                                  <i class="fa fa-cog"></i>&nbsp;
+                                  설정
+                                </a>
+                                <a href="/accounts/password/change/" class="navbar-item waves-effect waves-light">
+                                  <i class="fa fa-credit-card"></i>&nbsp;
+                                  결제
+                                </a>
+                                <hr class="navbar-divider">
+                                <a href="/auth/logout" class="navbar-item waves-effect waves-light">
+                                  <i class="fa fa-sign-out fa-2"></i>&nbsp;
+                                  Log out
+                                </a>
+                              </div>
+                            </div>
+                        </div>
+                          {% else %}
+                          <p class="control">
+                            <a class="button is-small" a href="/account/sign-up">
+                              <span class="icon">
+                                <i class="fa fa-user-plus"></i>
+                              </span>
+                              <span>
+                                Register
+                              </span>
+                            </a>
+                          </p>
+                          <p class="control">
+                            <a class="button is-small is-info is-outlined" a href="/account/sign-in">
+                              <span class="icon">
+                                <i class="fa fa-user"></i>
+                              </span>
+                              <span>Login</span>
+                            </a>
+                          </p>
+                          {% endif %}
+                        </div>
+
+                      </div>
+                    </div>
 				</div>
 			</div>
+
 		</nav>
-		
-        
-        <div id="live-list" class="live-list">
-            
+       
+
+        <div id="live-list" class="live-content">
+            <p class="live-list">Live 채널</p>
+
+            <div class="live-list">
+                <p id="pastor1" class="pastor-list" style="cursor:pointer">
+                <p id="pastor2" class="pastor-list" style="cursor:pointer">
+                <p id="pastor3" class="pastor-list" style="cursor:pointer">
+            </div>
         </div>
-        
+
+       
         <div id="live-chat" class="live-chat">
-        
+            <form name="message" action="" onsubmit="return false;">   
+                <textarea id="chat-log" cols="100" rows="30"></textarea><br/>
+                <!--<input id="chat-message-input" type="text" size="100" /><br/>-->
+                <textarea id="chat-message-input" type="text" size="100"></textarea><br/>
+                <input id="chat-message-submit" type="button" value="Send"/>
+            </form>
+            
+
+            <script>
+                var live_info = '{{live_info}}';
+                live_info = live_info.replace(/&quot;/g, "\"");
+ 
+                var json_live_info = JSON.parse(live_info);
+                var live_info_stream_key_list = new Array();
+
+                for(var i in json_live_info)
+                    live_info_stream_key_list[i] = json_live_info[i].fields.stream_key;
+
+                var random_index = Math.floor(Math.random() * live_info_stream_key_list.length);
+                var roomName = live_info_stream_key_list[random_index];
+
+                var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+               
+
+                var chatSocket = new WebSocket(
+                    ws_scheme + '://' + window.location.host +
+                    '/ws/chat/' + roomName + '/');
+                                                  
+                chatSocket.onmessage = function(e) {
+                    var data = JSON.parse(e.data);
+                    var message = data['message'];
+                    document.querySelector('#chat-log').value += (message);
+                };
+
+                chatSocket.onclose = function(e) {
+                    console.error('Chat socket closed unexpectedly');
+                };
+
+ 
+                document.querySelector('#chat-message-input').focus();
+                document.querySelector('#chat-message-input').onkeyup = function(e) {
+                    if (event.keyCode == 13){
+                        if (!event.shiftKey){
+                            document.querySelector('#chat-message-submit').click();
+                            e.preventDefault();
+                        }
+                    }
+                };
+  
+
+                document.querySelector('#chat-message-submit').onclick = function(e) {
+                    var messageInputDom = document.querySelector('#chat-message-input');
+                    var message =  '{{ user.name }} : ' + messageInputDom.value;
+                    chatSocket.send(JSON.stringify({
+                        'message': message
+                    }));
+ 
+                    messageInputDom.value = '';
+                };
+            </script>
+
         </div>
+
         
         <div id="live-main" class="live-main">
             <video id="live-video" class="live-video" controls preload="none"></video>
+            <br>
+            <img src="{% static 'img/pastor1.jpg' %}" width="80px" height="80px">
+            <p class="live-church-pastor" id="pastor"></p>
+            <br>
         </div>
-
 
 
         <script type="text/javascript">
             var mediaWidth = 640;
             var div_live_main = document.getElementById('live-main');
             var div_live_list = document.getElementById('live-list');
-            var div_live_chat = document.getElementById('live-chat');
-            
+            var div_live_chat = document.getElementById('live-chat');    
             var video_live = document.getElementById('live-video');
-        
-            
+           
+
             function divResize() {
                 if(800 <= $(window).width() && $(window).width() <= 1200){
                     div_live_list.style.display="none";
                     div_live_chat.style.display="block";
                     div_live_main.style.float = "left";
-                    video_live.style.float = "left";
                     mediaWidth = 320;
                 }
                 else if($(window).width() <= 800){
                     div_live_list.style.display="none";
                     div_live_chat.style.display="none";
-                    div_live_main.style.float = "auto";
-                    video_live.style.float = "auto";
+                    div_live_main.style.margin = "auto";
                     div_live_main.style.float = "none";
-                    video_live.style.float = "none";
                     mediaWidth = 0;
                 }
                 else{
+		    video_live.style.width = "800px";
+
                     div_live_list.style.display="block";
                     div_live_chat.style.display="block";
                     div_live_main.style.margin = "auto";
-                    video_live.style.margin = "auto";
                     div_live_main.style.float = "none";
-                    video_live.style.float = "none";
                     mediaWidth = 640;
                 }
+ 
 
                 div_live_main.style.width = window.innerWidth - mediaWidth + 'px';
-                video_live.style.width = window.innerWidth - mediaWidth + 'px';
+                //video_live.style.width = window.innerWidth - mediaWidth + 'px';
             }
+
+ 
 
             window.onload = function() {
                 divResize();
@@ -128,6 +231,40 @@
             }
         </script>
 
-		<script async type="text/javascript" src="{% static 'js/bulma/bulma.js' %}"></script>  
+
+        <script>
+             var pastor = document.getElementById("pastor");
+             /* live-info setting */
+             var live_info = '{{live_info}}';
+             live_info = live_info.replace(/&quot;/g, "\"");
+ 
+             var json_live_info = JSON.parse(live_info);
+             var live_info_list = new Array();
+ 
+             pastor1.innerHTML = '<img src="{% static 'img/pastor1.jpg' %}" width="60px" height="60px">' + "&nbsp;&nbsp;" + json_live_info[0].fields.pastor_id;
+             pastor2.innerHTML = '<img src="{% static 'img/pastor2.jpg' %}" width="60px" height="60px">' + "&nbsp;&nbsp;" +json_live_info[1].fields.pastor_id;
+             pastor3.innerHTML = '<img src="{% static 'img/pastor3.jpg' %}" width="60px" height="60px">' + "&nbsp;&nbsp;" +json_live_info[2].fields.pastor_id;
+ 
+             pastor.innerHTML = json_live_info[0].fields.pastor_id;
+ 
+             var p_list = document.querySelectorAll("p");
+             function addClickHandler(p, j){
+                    p.addEventListener('click', function(e){
+                        pastor.innerHTML = json_live_info[j-1].fields.pastor_id;
+                    }, false)
+                }
+
+             for(var j=0 ; j<p_list.length ; j++)
+                    addClickHandler(p_list[j], j);
+        </script>
+
+ 
+
+		<script async type="text/javascript" src="{% static 'js/bulma/bulma.js' %}"></script>
+    <script async type="text/javascript" src="{% static 'js/reconnecting-websocket.min.js' %}"></script>  
+
 	</body>
+
 </html>
+
+

@@ -7,3 +7,4 @@ echo -e "start uwsgi....\n\n"
 /home/pro/python3_venv/bin/uwsgi --ini light_salt_uwsgi.ini &
 echo -e "start nginx...\n\n."
 sudo /usr/local/nginx/sbin/nginx
+#daphne -b 0.0.0.0 -p 8443 light_salt.asgi:application

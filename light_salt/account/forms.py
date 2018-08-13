@@ -117,6 +117,29 @@ class UserChangeForm(forms.ModelForm):
     def clean_password(self):
         return self.initial["password"]
 
+class SettingsUserUpdateForm(forms.ModelForm):
+    member_id = forms.CharField(label="ID", 
+            widget=forms.TextInput(attrs={'placeholder':"ID", 'class':"input"}),)
+    name = forms.CharField(label="Name", 
+            widget=forms.TextInput(attrs={'placeholder':"Name", 'class':"input"}),)
+    email = forms.EmailField(label="Email", max_length=150, 
+            widget=forms.TextInput(attrs={'placeholder':"Email", 'class':"input"}),)
+
+    class Meta:
+        model = LightSaltUser
+        fields = ("member_id", "name", "email",)
+
+    def clean(self):
+        member_id = self.cleaned_data.get('member_id')
+        name = self.cleaned_data.get('name')
+        return super().clean()
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+        return user
+
 #####################
 ### 목사 정보 관리 폼
 

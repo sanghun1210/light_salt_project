@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mychurch',
-    'account',
+    'account.apps.AccountConfig',
     'debug_toolbar',
     'video',
     #'video.apps.VideoConfig',
@@ -157,7 +157,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-LOGIN_URL = '/auth/login/'
+LOGIN_URL = '/account/sign-in/'
 
 LOGIN_REDIRECT_URL = '/'
 

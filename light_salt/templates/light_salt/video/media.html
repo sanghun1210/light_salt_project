@@ -36,8 +36,8 @@
 
 				<div id="topNav" class="navbar-menu">
 					<div class="navbar-start">
-						<a class="navbar-item" style="color: #FFFFFF;" href="../">HOME</a>
-						<a class="navbar-item" style="color: #FFFFFF;" href="./">MEDIA</a>
+						<a class="navbar-item" style="color: #FFFFFF;" href="/">HOME</a>
+						<a class="navbar-item" style="color: #FFFFFF;" href="../media">MEDIA</a>
 						<a class="navbar-item" style="color: #FFFFFF;" href="instaAlbum.html">MY CHURCH</a>
 						<a class="navbar-item" style="color: #FFFFFF;" href="search.html">SEARCH</a>
 					</div>
@@ -103,9 +103,30 @@
             <p class="live-list">Live 채널</p>
 
             <div class="live-list">
-                <p id="pastor1" class="pastor-list" style="cursor:pointer">
-                <p id="pastor2" class="pastor-list" style="cursor:pointer">
-                <p id="pastor3" class="pastor-list" style="cursor:pointer">
+		<img id="pastor1_profile" class="pastor-list" align=left style="cursor:pointer; width: 80px; height: 80px; ">
+                <p id="pastor1_name" class=pastor-list></p>
+                <p id="pastor1_church" class=pastor-church></p>
+                <br clear=left>
+                
+                <img id="pastor2_profile" class="pastor-list" align=left style="cursor:pointer; width: 80px; height: 80px; ">
+                <p id=pastor2_name class=pastor-list></p>
+                <p id="pastor2_church" class=pastor-church></p>
+                <br clear=left>
+                
+                <img id="pastor3_profile" class="pastor-list" align=left style="cursor:pointer; width: 80px; height: 80px; ">
+                <p id=pastor3_name class=pastor-list></p>
+                <p id="pastor3_church" class=pastor-church></p>
+                <br clear=left>
+                
+                <img id="pastor4_profile" class="pastor-list" align=left style="cursor:pointer; width: 80px; height: 80px; ">
+                <p id=pastor4_name class=pastor-list></p>
+                <p id="pastor4_church" class=pastor-church></p>
+                <br clear=left>
+                
+                <img id="pastor5_profile" class="pastor-list" align=left style="cursor:pointer; width: 80px; height: 80px; ">
+                <p id=pastor5_name class=pastor-list></p>
+                <p id="pastor5_church" class=pastor-church></p>
+                <br clear=left>
             </div>
         </div>
 
@@ -113,7 +134,6 @@
         <div id="live-chat" class="live-chat">
             <form name="message" action="" onsubmit="return false;">   
                 <textarea id="chat-log" cols="100" rows="30"></textarea><br/>
-                <!--<input id="chat-message-input" type="text" size="100" /><br/>-->
                 <textarea id="chat-message-input" type="text" size="100"></textarea><br/>
                 <input id="chat-message-submit" type="button" value="Send"/>
             </form>
@@ -150,16 +170,27 @@
                 };
 
  
-                document.querySelector('#chat-message-input').focus();
+		document.querySelector('#chat-message-input').focus();
                 document.querySelector('#chat-message-input').onkeyup = function(e) {
+                    var userName = '{{ user.name }}';
+                    if( userName.length == 0 ){
+                        document.getElementById("chat-message-input").value = "<Please input message after login>";
+                        
+                        document.getElementById("chat-message-submit").disabled = true;
+                        
+                        e.preventDefault();
+                        return;
+                    }
+                    
                     if (event.keyCode == 13){
                         if (!event.shiftKey){
                             document.querySelector('#chat-message-submit').click();
                             e.preventDefault();
                         }
                     }
-                };
-  
+                    
+                }; 
+
 
                 document.querySelector('#chat-message-submit').onclick = function(e) {
                     var messageInputDom = document.querySelector('#chat-message-input');
@@ -232,32 +263,111 @@
         </script>
 
 
-        <script>
-             var pastor = document.getElementById("pastor");
-             /* live-info setting */
-             var live_info = '{{live_info}}';
-             live_info = live_info.replace(/&quot;/g, "\"");
- 
-             var json_live_info = JSON.parse(live_info);
-             var live_info_list = new Array();
- 
-             pastor1.innerHTML = '<img src="{% static 'img/pastor1.jpg' %}" width="60px" height="60px">' + "&nbsp;&nbsp;" + json_live_info[0].fields.pastor_id;
-             pastor2.innerHTML = '<img src="{% static 'img/pastor2.jpg' %}" width="60px" height="60px">' + "&nbsp;&nbsp;" +json_live_info[1].fields.pastor_id;
-             pastor3.innerHTML = '<img src="{% static 'img/pastor3.jpg' %}" width="60px" height="60px">' + "&nbsp;&nbsp;" +json_live_info[2].fields.pastor_id;
- 
-             pastor.innerHTML = json_live_info[0].fields.pastor_id;
- 
-             var p_list = document.querySelectorAll("p");
-             function addClickHandler(p, j){
-                    p.addEventListener('click', function(e){
-                        pastor.innerHTML = json_live_info[j-1].fields.pastor_id;
-                    }, false)
-                }
+	<script type="text/javascript">
+            var pastor_profile = document.getElementById("pastor-profile");
+            var pastor = document.getElementById("pastor");
+            var pastor_comment = document.getElementById("pastor-comment");
+            /* live-info setting */
+            var live_info = '{{live_info}}';
+            live_info = live_info.replace(/&quot;/g, "\"");
 
-             for(var j=0 ; j<p_list.length ; j++)
-                    addClickHandler(p_list[j], j);
+            var json_live_info = JSON.parse(live_info);
+
+            var pastor_info = '{{pastor_info}}';
+            pastor_info = pastor_info.replace(/&quot;/g, "\"");
+
+            var json_pastor_info = JSON.parse(pastor_info);
+
+            //{% static 'img/pastor3.jpeg' %}
+            document.getElementById("pastor1_profile").src = "https://192.168.21.71/static/" + json_pastor_info[0].fields.pastor_profile_photo;
+            document.getElementById("pastor1_name").innerHTML = json_pastor_info[0].fields.pastor_id;
+            document.getElementById("pastor1_church").innerHTML = json_pastor_info[0].fields.church_name;
+            
+            document.getElementById("pastor2_profile").src = "https://192.168.21.71/static/" + json_pastor_info[1].fields.pastor_profile_photo;
+            document.getElementById("pastor2_name").innerHTML = json_pastor_info[1].fields.pastor_id;
+            document.getElementById("pastor2_church").innerHTML = json_pastor_info[1].fields.church_name;
+            
+            document.getElementById("pastor3_profile").src = "https://192.168.21.71/static/" + json_pastor_info[2].fields.pastor_profile_photo;
+            document.getElementById("pastor3_name").innerHTML = json_pastor_info[2].fields.pastor_id;
+            document.getElementById("pastor3_church").innerHTML = json_pastor_info[2].fields.church_name;
+            
+            document.getElementById("pastor4_profile").src = "https://192.168.21.71/static/" + json_pastor_info[3].fields.pastor_profile_photo;
+            document.getElementById("pastor4_name").innerHTML = json_pastor_info[3].fields.pastor_id;
+            document.getElementById("pastor4_church").innerHTML = json_pastor_info[3].fields.church_name;
+            
+            document.getElementById("pastor5_profile").src = "https://192.168.21.71/static/" + json_pastor_info[4].fields.pastor_profile_photo;
+            document.getElementById("pastor5_name").innerHTML = json_pastor_info[4].fields.pastor_id;
+            document.getElementById("pastor5_church").innerHTML = json_pastor_info[4].fields.church_name;
+            
+            
+            pastor_profile.src = "https://192.168.21.71/static/" + json_pastor_info[0].fields.pastor_profile_photo;
+            pastor.innerHTML = '[' + json_pastor_info[0].fields.pastor_id + '] ' + json_pastor_info[0].fields.church_name;
+            pastor_comment.innerHTML = json_pastor_info[0].fields.pastor_comment;
+            
+            
+            /* Live */
+            var video = document.getElementById('live-video');
+            var hls = new Hls();
+            
+            if(Hls.isSupported()) {
+                var streamUrl = 'https://192.168.21.71/hls/' + json_live_info[0].fields.stream_key + '.m3u8';
+                    
+                hls.loadSource(streamUrl);
+                hls.attachMedia(video);
+                
+                hls.on(Hls.Events.MANIFEST_PARSED,function() {
+                    var playPromise = video.play();
+                    
+                    if (playPromise !== undefined) {
+                      playPromise.then(function() {
+                        // Automatic playback started!
+                      }).catch(function(error) {
+                        // Automatic playback failed.
+                        // Show a UI element to let the user manually start playback.
+                      });
+                    }
+                });
+            }
+            // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
+            // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
+            // This is using the built-in support of the plain video element, without using hls.js.
+            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = 'https://192.168.21.71/hls/hrjeon.m3u8'; // 동영상경로
+
+                video.addEventListener('canplay',function() {
+                    var playPromise = video.play();
+                    
+                    if (playPromise !== undefined) {
+                      playPromise.then(function() {
+                        // Automatic playback started!
+                      }).catch(function(error) {
+                        // Automatic playback failed.
+                        // Show a UI element to let the user manually start playback.
+                      });
+                    }
+                });
+             }
+            
+
+            var img_list = document.querySelectorAll("img");
+            function addClickHandler(img, j){
+                img.addEventListener('click', function(e){
+                    pastor_profile.src = "https://192.168.21.71/static/" + json_pastor_info[j-1].fields.pastor_profile_photo;
+                    
+                    pastor.innerHTML = '[' + json_live_info[j-1].fields.pastor_id + '] ' + json_pastor_info[j-1].fields.church_name;
+                    
+                    pastor_comment.innerHTML = json_pastor_info[j-1].fields.pastor_comment;
+                    
+                    var streamUrl = 'https://192.168.21.71/hls/' + json_live_info[j-1].fields.stream_key + '.m3u8';
+                    
+                    hls.loadSource(streamUrl);
+                }, false)
+            }
+
+            for(var j=0 ; j<img_list.length ; j++)
+                addClickHandler(img_list[j], j);
+
         </script>
-
  
 
 		<script async type="text/javascript" src="{% static 'js/bulma/bulma.js' %}"></script>

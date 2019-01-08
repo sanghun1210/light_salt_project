@@ -39,7 +39,7 @@
       <div id="topNav" class="navbar-menu">
         <div class="navbar-start">
           <a class="navbar-item" href="/">HOME</a>
-          <a class="navbar-item" href="media">MEDIA</a>
+          <a class="navbar-item" href="../media">MEDIA</a>
           <a class="navbar-item" href="instaAlbum.html">MY CHURCH</a>
           <a class="navbar-item" href="search.html">SEARCH</a>
         </div>
@@ -96,130 +96,112 @@
       </div>
   </nav>
 
+
   <div class="main">
-  {% block content %}
-  <section class="container">
-    <div class="main-video">
+            {% block content %}
+            <div class="column">
+                <div class="church-video">
+                    <video id="video" class="main" controls preload="none">
+                    </video>
+                </div>
+                
+                <div class="church-info">
+                    <p id="church-name" class="church-name"></p>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="church-video">
+                    <video id="video2" class="main" controls preload="none">
+                    </video>
+                </div>
+                
+                <div class="church-info">
+                    <p id="church-name2" class="church-name"></p>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="church-video">
+                    <video id="video3" class="main" controls preload="none">
+                    </video>
+                </div>
+                
+                <div class="church-info">
+                    <p id="church-name3" class="church-name"></p>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="church-video">
+                    <video id="video4" class="main" controls preload="none">
+                    </video>
+                </div>
+                
+                <div class="church-info">
+                    <p id="church-name4" class="church-name"></p>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="church-video">
+                    <video id="video5" class="main" controls preload="none">
+                    </video>
+                </div>
+                
+                <div class="church-info">
+                    <p id="church-name5" class="church-name"></p>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="church-video">
+                    <video id="video6" class="main" controls preload="none">
+                    </video>
+                </div>
+                
+                <div class="church-info">
+                    <p id="church-name6" class="church-name"></p>
+                </div>
+            </div>
+            
 
-      <video id="video" class="main" controls preload="none">
-      </video>
+            <script>
+                /* media setting */
+                var server_address = '{{video_info}}';
+                server_address = server_address.replace(/&quot;/g, "\"");
 
-      <div class="church-info">
-	  <p class="church-name" id="church_name"></p>
-	  <br>
-	  <p class="church-comment">하나님은 언제나 여러분을 기다리고 있습니다.</p>
-      </div>
+                var json_server_address = JSON.parse(server_address);
+                var server_address_list = new Array();
 
-    </div>
+                for(var i in json_server_address)
+                    server_address_list[i] = json_server_address[i].fields.server_address;
 
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        var carousels = bulmaCarousel.attach();
-      }, false);
-    </script>
-
-    <div class="carousel carousel-animated carousel-animate-slide" data-size="5">
-      <div class='carousel-container'>
-        <div class='carousel-item'>
-          <figure class="image is-2by1">
-            <img id="image1" src="http://www.gstatic.com/webp/gallery/1.jpg" style="cursor:pointer">
-          </figure>
-
+                /* church info */
+                var church_info = '{{church_info}}';
+                church_info = church_info.replace(/&quot;/g, "\"");
+                var json_church_info = JSON.parse(church_info);
+               
+                var video_list = document.querySelectorAll('video')
+                
+                for(var j=0 ; j<video_list.length ; j++)
+                    video_list[j].style.backgroundImage = "url(static/" + json_church_info[j].fields.church_photo + ")";
+                
+                var church_name_list = document.querySelectorAll('.church-name')
+                for(var k=0 ; k<church_name_list.length ; k++)
+                    church_name_list[k].innerHTML = "[" + json_church_info[k].fields.church_name + "] " + json_church_info[k].fields.pastor_id;
+                
+            </script>
+            {% endblock content %}
+            
+            <br clear=left>
+            <br>
+            <br>
+            <p style="cursor:pointer; color: #FFFFFF; font-size: 25px;">View all movie -></p>
         </div>
-        <div class='carousel-item'>
-          <figure class="image is-2by1">
-            <img id="image2" src="http://www.gstatic.com/webp/gallery/2.jpg" style="cursor:pointer">
-          </figure>
 
-        </div>
-        <div class='carousel-item'>
-          <figure class="image is-2by1">
-            <img id="image3" src="http://www.gstatic.com/webp/gallery/3.jpg" style="cursor:pointer">
-          </figure>
 
-        </div>
-        <div class='carousel-item'>
-          <figure class="image is-2by1">
-            <img id="image4" src="http://www.gstatic.com/webp/gallery/4.jpg" style="cursor:pointer">
-          </figure>
-
-        </div>
-        <div class='carousel-item'>
-          <figure class="image is-2by1">
-            <img id="image5" src="http://www.gstatic.com/webp/gallery/5.jpg" style="cursor:pointer">
-          </figure>
-
-        </div>
-        <div class='carousel-item'>
-          <figure class="image is-2by1">
-            <img id="image6" src="https://homepages.cae.wisc.edu/~ece533/images/airplane.png" style="cursor:pointer">
-          </figure>
-
-        </div>
-        <div class='carousel-item'>
-          <figure class="image is-2by1">
-            <img id="image7" src="https://homepages.cae.wisc.edu/~ece533/images/arctichare.png" style="cursor:pointer">
-          </figure>
-
-        </div>
-      </div>
-      <div class="carousel-navigation is-centered">
-        <div class="carousel-nav-left">
-          <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        </div>
-        <div class="carousel-nav-right">
-          <i class="fa fa-chevron-right" aria-hidden="true"></i>
-        </div>
-      </div>
-    </div>
-
-    <script>
-	    var video = document.getElementById('video');
-                     video.onplay = function() {
-                     video.style.background = 'black';
-            };
-                        
-            /* media setting */
-            var server_address = '{{server_address}}';
-            server_address = server_address.replace(/&quot;/g, "\"");
-
-            var json_server_address = JSON.parse(server_address);
-            var server_address_list = new Array();
-
-            for(var i in json_server_address)
-                 server_address_list[i] = json_server_address[i].fields.server_address;
-
-            var video = document.getElementById('video');
-            var random_index = Math.floor(Math.random() * server_address_list.length);
-            $("#video").attr("src", server_address_list[random_index]);
-            //video.play()
-
-            var img_list = document.querySelectorAll('img')
-            function addClickHandler(img, j){
-                 img.addEventListener('click', function(e){
-                 $("#video").attr("src", server_address_list[j])
-                 video.play()              
-               }, false)
-            }
-
-            for(var j=0 ; j<img_list.length ; j++)
-                addClickHandler(img_list[j], j);
-
-            /* church info */
-            var church_info = '{{church_info}}';
-            church_info = church_info.replace(/&quot;/g, "\"");
-            var json_church_info = JSON.parse(church_info);
-
-            var church_name = document.getElementById('church_name');
-            church_name.innerHTML = '<img src="{% static 'img/1.jpg' %}" width="80px" height="80px">' + "&nbsp;&nbsp;" + json_church_info[(json_server_address[random_index].fields.church_no)-1].fields.church_name;
-
-    </script>
-
-  </section>
-  {% endblock content %}
-  </div>
-
+  <br clear=left>
   {% block footer %}
   <footer class="footer">
     <div class="container">

@@ -5,7 +5,7 @@ from django.conf import settings
 from django.views.generic import TemplateView
 
 from mychurch.views import MychurchIndex, Board, BoardView, BoardWrite, BoardEdit, DeleteFile, \
-     Comments, ImageUpload, ImageDelete, ImageRecovery,MychurchAdmin, MyMembers
+     Comments, ImageUpload, ImageDelete, ImageRecovery,MychurchAdmin, MyMembers, MyBoards, MyBoard
 from mychurch import views
 
 app_name = 'mychurch'
@@ -15,6 +15,8 @@ urlpatterns = [
     path('', MychurchIndex.as_view(), name='index'),
     path('admin/<int:church_no>/', MychurchAdmin.as_view(), name='myadmin'),
     path('admin/<int:church_no>/mymembers/', MyMembers.as_view(), name='mymembers'),
+    path('admin/<int:church_no>/myboards/', MyBoards.as_view(), name='myboards'),
+    path('admin/<int:church_no>/myboards/<int:board_no>/', MyBoard.as_view(), name='myboard'),
     path('board/', Board.as_view(), name='board_index'),
     path('board/<int:board_no>/', Board.as_view(), name='board_list'),
     path('board/<int:board_no>/view/<int:board_content_no>/', BoardView.as_view(), name='board_view'),

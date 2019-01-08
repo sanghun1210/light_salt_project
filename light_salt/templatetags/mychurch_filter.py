@@ -32,3 +32,11 @@ def enumerates(value):
 @register.filter
 def remainder(value, divisor):
     return (value+1) % divisor
+
+@register.filter
+def checked( value, base):
+    if base == value :
+         return "checked"
+    else :
+        return ""
+	

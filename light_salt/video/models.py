@@ -24,7 +24,7 @@ class LSVD001M(models.Model):
         db_table = 'LSVD001M'
 
     def __str__(self):
-        return '%s %s' % (self.user_id, self.server_address)
+        return '%s %s %s' % (self.user_id, self.server_address, self.church_no)
 
 
 class LSVD002M(models.Model):
@@ -43,5 +43,5 @@ class LSVD002M(models.Model):
         db_table = 'LSVD002M'
 
     def __str__(self):
-        return self.video_no
+        return '%s %s %s' % (self.video_no, self.pastor_id, self.stream_key)
 

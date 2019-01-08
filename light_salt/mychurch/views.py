@@ -36,6 +36,107 @@ class MyHTMLParser(HTMLParser):
     def get_image_set(self):
         return self.data_list
 
+class MyBoard(TemplateView) :
+    def get(self,request, church_no, board_no):
+        page = request.GET.get('page')
+
+        if  int(church_no) < 1:    
+            raise forms.ValidationError('Invalid access!!')
+
+        if  int(board_no) < 1:    
+            raise forms.ValidationError('Invalid access!!')
+
+        board = get_object_or_404(LSCH003M, pk=board_no)
+
+        return render(request, 'mychurch/admin/mychurch_board_modify.html',{'church_no':church_no, 'board_no':board_no, 'page':page, 'board':board} )
+
+    def post(self,request, church_no, board_no):
+        page = request.POST.get('page')
+        board_title_name = request.POST.get('board_title_name')
+        member_id = request.POST.get('member_id')
+        page_count = request.POST.get('page_count')
+        list_count = request.POST.get('list_count')
+        board_type_code = request.POST.get('board_type_code')
+        board_access_code = request.POST.get('board_access_code')
+        file_attach_yn = request.POST.get('file_attach_yn')
+        comment_use_yn = request.POST.get('comment_use_yn')
+        passwd_use_yn = request.POST.get('passwd_use_yn')
+        webedit_use_yn = request.POST.get('webedit_use_yn')
+        image_height = request.POST.get('image_height')
+        image_width = request.POST.get('image_width')
+        image_br_count = request.POST.get('image_br_count')
+        new_icon_terms = request.POST.get('new_icon_terms')
+        hot_view_count = request.POST.get('hot_icon_view_count')
+
+        LSCH003M.objects.filter(pk=board_no).update( member_id=member_id, board_title_name=board_title_name, list_count=list_count, page_count=page_count, \
+            board_type_code=board_type_code, board_access_code=board_access_code,file_attach_yn=file_attach_yn,comment_use_yn=comment_use_yn,  \
+            image_br_count=image_br_count, image_height=image_height, image_width=image_width, new_icon_terms=new_icon_terms , passwd_use_yn=passwd_use_yn, \
+            webedit_use_yn=webedit_use_yn, hot_icon_view_count=hot_view_count, user_id=request.user.member_id)
+
+        view = MyBoards() 
+        if not request.GET._mutable:
+            request.GET._mutable = True
+        
+        request.GET['page'] = page
+        return view.get(request, church_no)
+        #return redirect('mychurch:myboards', church_no=church_no, page=page)
+
+class MyBoards(TemplateView) :
+
+    def get(self,request, church_no):
+
+        page = request.GET.get('page')
+        mode = request.GET.get('mode')
+
+        if page is None :
+            page=1
+
+        if  int(church_no) < 1:    
+            raise forms.ValidationError('Invalid access!!')
+			
+        if mode=="write" :
+            return  render(request, 'mychurch/admin/mychurch_board_add.html',{'church_no':church_no, 'page':page} )
+        else :
+            boards =  LSCH003M.objects.raw('''SELECT a.board_no, a.board_title_name, a.board_type_code, a.board_access_code, a.file_attach_yn, a.comment_use_yn, a.passwd_use_yn FROM LSCH003M as a WHERE a.church_no = %s''', [church_no])
+            paginator = Paginator(list(boards), 20) 
+
+            try:
+                page_list = paginator.page(page)
+            except PageNotAnInteger:
+                page_list = paginator.page(1)
+            except EmptyPage:
+                page_list = paginator.page(paginator.num_pages)
+           
+            return  render(request, 'mychurch/admin/mychurch_boards.html',{'church_no':church_no, 'boards':boards,   'page_list': page_list, 'page':page} )
+    
+    def post(self,request, church_no):
+        page = request.POST.get('page')
+        board_title_name = request.POST.get('board_title_name')
+        member_id = request.POST.get('member_id')
+        page_count = request.POST.get('page_count')
+        list_count = request.POST.get('list_count')
+        board_type_code = request.POST.get('board_type_code')
+        board_access_code = request.POST.get('board_access_code')
+        file_attach_yn = request.POST.get('file_attach_yn')
+        comment_use_yn = request.POST.get('comment_use_yn')
+        passwd_use_yn = request.POST.get('passwd_use_yn')
+        webedit_use_yn = request.POST.get('webedit_use_yn')
+        image_height = request.POST.get('image_height')
+        image_width = request.POST.get('image_width')
+        image_br_count = request.POST.get('image_br_count')
+        new_icon_terms = request.POST.get('new_icon_terms')
+        hot_view_count = request.POST.get('hot_view_count')
+
+        if  int(church_no) < 1:    
+            raise forms.ValidationError('Invalid access!!')
+        
+        result = LSCH003M.objects.create(church_no=church_no, member_id=member_id, board_title_name=board_title_name, list_count=list_count, page_count=page_count, \
+            board_type_code=board_type_code, board_access_code=board_access_code,file_attach_yn=file_attach_yn,comment_use_yn=comment_use_yn,  \
+            image_br_count=image_br_count, image_height=image_height, image_width=image_width, new_icon_terms=new_icon_terms , passwd_use_yn=passwd_use_yn, \
+            webedit_use_yn=webedit_use_yn, hot_icon_view_count=hot_view_count, user_id=request.user.member_id)
+
+        return redirect('mychurch:myboards', church_no=church_no)
+
 class MychurchAdmin(LoginRequiredMixin, TemplateView):
 
     def get(self,request, church_no):

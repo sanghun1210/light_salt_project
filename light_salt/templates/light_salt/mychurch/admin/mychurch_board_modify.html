@@ -1,0 +1,233 @@
+{% extends 'mychurch/admin/admin.html' %}
+
+{% block content %}
+{% load mychurch_filter %}
+<div class="tile is-ancestor">
+<div class="tile is-8 is-parent">
+<article class="tile is-child box">
+    <h1 class="title">게시판 생성</h1>
+    <div class="block">
+        <form action="" method="post" name="frm" enctype="multipart/form-data">
+	<input type="hidden" name="page" value="{{ page }}">
+	 {% csrf_token %}
+        <div class="control is-horizontal">
+	<div class="control-label">
+	    <label class="label">게시판 이름</label>
+	</div>
+	<div class="control is-grouped">
+	    <p class="control is-expanded">
+	        <input type="text" value="{{ board.board_title_name }}" name="board_title_name" placeholder="Name" class="input">
+	    </p> 
+	</div>
+        </div>
+       <div class="control is-horizontal">
+	<div class="control-label">
+	    <label class="label">게시판 관리자</label>
+	</div>
+	<div class="control is-grouped">
+	    <p class="control is-expanded">
+	        <input type="text" name="member_id" value="{{ board.member_id }}" readonly class="input">
+	    </p> 
+	</div>
+        </div>
+		
+        <div class="control is-horizontal">
+            <div class="control-label">
+                <label class="label">게시판 유형</label>
+            </div>
+            <div class="control">
+                <div class="select is-fullwidth">
+	         <select name="board_type_code">
+		  {% ifequal  board.board_type_code "BNRM" %}
+	             <option value="BNRM" selected>일반형</option>
+		   <option value="IMG">갤러리형</option>
+	             {% else  %}
+		  <option value="BNRM">일반형</option>
+		  <option value="IMG" selected>갤러리형</option>
+		  {% endifequal %}
+	         </select>
+                </div>
+            </div>
+        </div> 
+		
+        <div class="control is-horizontal">
+	<div class="control-label">
+	    <label class="label">페이지출력수</label>
+	</div>
+	<div class="control is-grouped">
+	    <p class="control is-expanded">
+	        <input type="text" name="page_count" placeholder="페이징수" class="input" value="{{ board.page_count }}">
+	    </p> 
+		
+	    <div class="control-label">
+	        <label class="label">리스트출력수</label>
+	    </div>
+	    <p class="control is-expanded">
+	        <input type="text" name="list_count" placeholder="목록수" class="input" value="{{ board.list_count }}">
+	    </p> 
+	</div>
+        </div>
+	
+        <div class="control is-horizontal">
+            <div class="control-label">
+                <label class="label">게시판 권한</label>
+            </div>
+            <div class="control">
+                <div class="select is-fullwidth">
+	         <select name="board_access_code">
+		  {% ifequal  board.board_type_code "READ" %}
+	              <option value="READ" selected>읽기</option>
+		   <option value="RDWR">읽기/쓰기</option>
+	             {% else  %}
+		   <option value="READ">읽기</option>
+		   <option value="RDWR" selected>읽기/쓰기</option>
+		  {% endifequal %}
+	         
+	         </select>
+                </div>
+            </div>
+        </div> 
+	
+        <div class="control is-horizontal">
+	<div class="control-label">
+	    <label class="label">파일첨부</label>
+	</div>
+	<div class="control is-grouped">
+	    <label class="radio">
+		<input type="radio" name="file_attach_yn" value="Y" {{board.file_attach_yn|checked:'Y'}} >Yes
+	     </label>
+	     <label class="radio">
+		<input type="radio" name="file_attach_yn" value="N" {{board.file_attach_yn|checked:'N'}}> No
+	     </label>
+
+		
+	    <div class="control-label">
+	        <label class="label">댓글사용</label>
+	    </div>
+
+	    <label class="radio">
+		<input type="radio" name="comment_use_yn" value="Y" {{board.comment_use_yn|checked:'Y'}}>Yes
+	     </label>
+	     <label class="radio">
+		<input type="radio" name="comment_use_yn" value="N" {{board.comment_use_yn|checked:'N'}}> No
+	     </label>
+	
+	</div>
+        </div>
+	
+        <div class="control is-horizontal">
+	<div class="control-label">
+	    <label class="label">비밀글사용</label>
+	</div>
+	<div class="control is-grouped">
+	     
+	    <label class="radio">
+		<input type="radio" name="passwd_use_yn" value="Y" {{board.passwd_use_yn|checked:'Y'}}>Yes
+	     </label>
+	     <label class="radio">
+		<input type="radio" name="passwd_use_yn" value="N" {{board.passwd_use_yn|checked:'N'}}> No
+	     </label>
+
+	    <div class="control-label">
+	        <label class="label">웹에디터사용</label>
+	    </div>
+
+	    <label class="radio">
+		<input type="radio" name="webedit_use_yn" value="Y" {{board.webedit_use_yn|checked:'Y'}}>Yes
+	     </label>
+	     <label class="radio">
+		<input type="radio" name="webedit_use_yn" value="N" {{board.webedit_use_yn|checked:'N'}}> No
+	     </label>
+	
+	</div>
+        </div>
+	
+        <div class="control is-horizontal">
+	<div class="control-label">
+	    <label class="label">이미지크기</label>
+	</div>
+	<div class="control is-grouped">
+	    <p class="control is-expanded">
+	        <input type="text" name="image_height" value="{{ board.image_height }}" class="input">픽셀 
+	        <input type="text" name="image_width" value="{{ board.image_width }}" class="input">픽셀	
+	    </p> 
+		
+	    <div class="control-label">
+	        <label class="label">줄바꿈 게시물수</label>
+	    </div>
+	    <p class="control is-expanded">
+	        <input type="text" name="image_br_count" value="{{ board.image_br_count }}" class="input">
+	    </p> 
+	</div>
+        </div>
+		
+		
+      <div class="control is-horizontal">
+	<div class="control-label">
+	    <label class="label">New기간설정(일)</label>
+	</div>
+	<div class="control is-grouped">
+	    <p class="control is-expanded">
+	        <input type="text" name="new_icon_terms" value="{{ board.new_icon_terms }}" class="input"> 
+	    </p> 
+	   
+	    <div class="control-label">
+	        <label class="label">Hot조회수 설정</label>
+	    </div>
+	    <p class="control is-expanded">
+	        <input type="text" name="hot_icon_view_count" value="{{ board.hot_icon_view_count }}" class="input">
+	    </p> 
+	</div>
+        </div>
+	</form>
+        <br><br>	
+        <div class="control is-horizontal">
+            <div class="control">
+	      <a href="javascript:_submit();" class="button is-success is-outlined">
+	          <span class="icon"><i class="fa fa-check"></i></span>
+	          <span>Submit</span>
+	     </a>&nbsp;&nbsp;
+	     <a href="{% url 'mychurch:myboards' church_no=church_no %}" class="button is-danger is-outlined">
+	         <span class="icon"><i class="fa fa-times"></i></span>
+	         <span>Cancel</span>
+	     </a>
+            </div>
+        </div>
+	
+    </div>	
+</article>
+</div>
+
+</div>
+
+<script>
+  
+  function _submit()
+  {
+    f = document.frm
+	if( f.board_title_name.value == "") {
+	    alert("게시판 이름을 입력하세요");
+		f.board_title_name.focus();
+		return;
+	}
+    else if( f.page_count.value == "") {
+	    alert("페이지출력수를 입력하세요");
+		f.page_count.focus();
+		return;
+	}
+	else if( f.list_count.value == "") {
+	    alert("리스트출력수를 입력하세요");
+		f.list_count.focus();
+		return;
+	}
+	
+	f.action="{% url 'mychurch:myboard' church_no=church_no board_no=board_no %}";
+	f.submit();
+  }
+
+</script>
+
+ {% endblock content %}  
+
+  
+  

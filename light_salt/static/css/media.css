@@ -29,11 +29,22 @@ p.live-list {
     padding-top: 15px;
 }
 
-p.pastor-list {
-    color: #FFFFFF;
+img.pastor-list {
     padding: 10px;
+}
+
+p.pastor-list {
+    font-size: 20px;
+    padding-top: 10px;
+    color: #FFFFFF;
     display: flex;
-    align-items: center;
+}
+
+p.pastor-church {
+    font-size: 15px;
+    padding-top: 5px;
+    color: #A4A4A4;
+    display: flex;
 }
 
 div.live-chat {
@@ -44,20 +55,24 @@ div.live-chat {
     float: right;
 }
 
+textarea {
+    font-size: 18px;
+}
+
 #form {
     margin:0 auto;
     padding:10;
 }
 
 #chat-log {
-    text-align:left;
-    height:90%;
-    width:95%;
+    text-align: left;
+    height: 90%;
+    width: 95%;
     margin-left: 2.5%;
     margin-top: 5px;
-    background:#FFFFFF;
+    background: #FFFFFF;
     border:2px solid #CEE3F6;
-    overflow:auto;
+    overflow: auto;
 }
 
 #chat-message-input {
@@ -66,6 +81,7 @@ div.live-chat {
     margin-left: 2.5%;
     border:2px solid #CEE3F6; 
     overflow: auto;
+    line-height: inherit;
 }
   
 #chat-message-submit { 
@@ -83,16 +99,21 @@ video.live-video {
     width: 800px;
     height: 480px;
     display: block;
-    margin: auto;
+    margin: 0 auto;
     margin-top: 20px;
     background-color: #000000;
 }
 
 p.live-church-pastor {
-	font-size: 20px;
-	font-weight: 600;
-	color: #000000;
-	display: flex;
-	align-items: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+    display: flex;
 }
 
+p.live-pastor-comment {
+    font-size: 15px;
+    color: #000000;
+    display: flex;
+    margin-top: 10px;
+}

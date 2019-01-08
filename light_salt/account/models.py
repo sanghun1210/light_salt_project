@@ -81,7 +81,10 @@ class LightSaltPastor(TimeStampedModel):
         unique=True,
         help_text=_('Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.'),
     )
+    pastor_profile_photo = models.CharField(max_length=100, null=True)
+    pastor_comment = models.CharField(max_length=100, null=True)
     church_name = models.CharField(max_length=100)
+    church_photo = models.CharField(max_length=100, null=True)
 
     graduation_proof = models.ImageField(null=True)     #대학원 졸업증(이미지)   
     church_satification = models.ImageField(null=True)  #안수증(이미지)  
@@ -96,9 +99,11 @@ class LightSaltPastor(TimeStampedModel):
         verbose_name = u'LSMB002M - 교회정보'
         verbose_name_plural = u'LSMB002M - 교회정보'
 
-    def get_absolute_url(self): 
-        return reverse('pastor_detail', kwargs={"church": self.church_no}) 
+    #def get_absolute_url(self): 
+    #    return reverse('pastor_detail', kwargs={"church": self.church_no}) 
 
+    def __str__(self):
+        return '%s %s %s %s %s' % (self.pastor_id, self.pastor_profile_photo, self.pastor_comment, self.church_name, self.church_photo)
 
 #####################
 ### 교회 신도정보

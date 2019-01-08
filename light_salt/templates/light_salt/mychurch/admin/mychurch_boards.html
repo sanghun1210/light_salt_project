@@ -1,0 +1,106 @@
+{% extends 'mychurch/admin/admin.html' %}
+
+{% block content %}
+<div class="tile is-ancestor">
+      <div class="tile is-parent">
+         <article class="tile is-child box">
+             <h4 class="title">게시판  관리</h4>
+             <div class="table-responsive">     
+                <table class="table is-bordered is-striped is-narrow">
+                <thead>
+                    <tr> 
+                        <th align="center">번호</th> 
+                        <th align="center">게시판명</th>
+                        <th align="center">유형</th>
+                        <th align="center">권한</th>
+                        <th align="center">댓글사용</th>						
+                        <th align="center">비밀글사용</th>
+		  <th align="center">파일첨부</th>
+                        <th align="center">수정</th>
+                   </tr>
+                </thead>
+                <tbody>
+               {% for board in boards %}
+                 <tr>
+                        <td> {{ board.board_no }}</td> 
+                        <td>{{ board.board_title_name }}</td> 
+		    <td>
+		    {% ifequal  board.board_type_code "BNRM" %}
+		         일반형
+                         {% else  %}
+                               갤러리형
+                         {% endifequal %}							   
+	             </td> 
+		   <td>
+		    {% ifequal  board.board_access_code "RDWR" %}
+		         읽기/쓰기
+                         {% else  %}
+                              읽기
+                         {% endifequal %}							   
+	             </td> 
+                        <td>{{ board.comment_use_yn}}  </td> 
+                        <td>{{ board.passwd_use_yn}}  </td> 
+                        <td>{{ board.file_attach_yn}}  </td> 
+		   <td><a href="{% url 'mychurch:myboard' church_no=church_no board_no=board.board_no %}?page={{page}}" class="button is-small is-info is-active">수정</a> </td> 
+                  </tr> 
+               {% endfor %} 
+               </tbody>
+               </table>
+             </div>
+			
+         </article>
+		
+    </div>
+</div>
+    <p class="control"><a href="{% url 'mychurch:myboards' church_no=church_no %}?mode=write" class="button is-danger">  게시판 추가 </a></p>
+    <ul class="pagination">
+	{% if page_list.has_previous %}
+	  <li><a href="?page={{ page_list.previous_page_number }}">&laquo;</a></li>
+	{% else %}
+	  <li class="disabled"><span>&laquo;</span></li>
+	{% endif %}
+	{% for i in page_list.paginator.page_range %}
+	  {% if page_list.number == i %}
+		<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+	  {% else %}
+		<li><a href="?page={{ i }}">{{ i }}</a></li>
+	  {% endif %}
+	{% endfor %}
+	{% if page_list.has_next %}
+	  <li><a href="?page={{ page_list.next_page_number }}">&raquo;</a></li>
+	{% else %}
+	  <li class="disabled"><span>&raquo;</span></li>
+	{% endif %}
+    </ul>	
+
+<script>
+
+    function changeInfo(id, item, type, val, no)
+	{
+	    $.ajax({
+        type: "POST",
+        url : '{% url 'mychurch:mymembers' church_no=church_no %}',
+        data : {'csrfmiddlewaretoken': '{{ csrf_token }}', 
+		        member_id: id , 
+				item: item, 
+				type: type,
+				val: val,
+				member_no: no
+				},
+        success:function(data){
+          //$('body').append(data)
+
+        },
+		error: function(request, status, error){ 
+		  alert(error);
+		}
+      });
+	}
+
+	
+</script> 
+
+ {% endblock content %}  
+
+  
+  

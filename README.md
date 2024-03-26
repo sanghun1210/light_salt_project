@@ -1,6 +1,9 @@
-# light_salt_project Django 프로젝트 구조 요약
+# light_salt_project 프로젝트 구조 요약
 
-해당 Django 프로젝트는 다양한 구성 요소로 이루어져 있으며, 아래에 주요 디렉토리와 파일들에 대한 설명을 포함하고 있습니다.
+- 온라인 예배를 위한 실신간 영상 플랫폼
+- 배경은 레포지토리 내 ppt 참조
+- Django, Javascript, python mysql 등 활용
+- 아래에 주요 디렉토리와 파일들에 대한 설명을 포함하고 있습니다.
 
 ## 주요 디렉토리 및 파일
 

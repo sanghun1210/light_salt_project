@@ -1,4 +1,4 @@
-# light_salt_project 프로젝트 구조 요약
+# light_salt_project 프로젝트
 
 - 온라인 예배를 위한 실신간 영상 플랫폼
 - 배경은 레포지토리 내 ppt 참조
